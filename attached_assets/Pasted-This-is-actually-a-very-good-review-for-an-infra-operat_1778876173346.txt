@@ -1,0 +1,321 @@
+This is actually a very good review for an infra operations platform.
+The main thing now is moving from “working MVP” → “production-grade SaaS”.
+
+Paste this into Replit to address all the architecture gaps.
+
+PRODUCTION HARDENING — FINAL ARCHITECTURE IMPROVEMENTS
+
+Current application review score:
+
+* Application: 6.5/10
+* Database: 7/10
+* Backend: 7.5/10
+
+Goal:
+Upgrade platform to enterprise-grade production readiness.
+
+==================================================
+CRITICAL ISSUE — FILE STORAGE
+=============================
+
+Current issue:
+Uploaded images are stored on local filesystem.
+
+Problem:
+Replit deployments are ephemeral.
+Any restart/redeployment can wipe uploaded files.
+
+This is NOT acceptable for production.
+
+==================================================
+REQUIRED SOLUTION
+=================
+
+Keep entire platform inside Replit ecosystem.
+
+Use:
+Replit Object Storage / Replit Buckets
+
+DO NOT use:
+
+* local uploads folder for production
+* filesystem persistence
+* temporary storage
+
+==================================================
+NEW FILE STORAGE ARCHITECTURE
+=============================
+
+Implement:
+
+1. Upload file to Replit Object Storage
+2. Generate persistent public URL
+3. Store URL in PostgreSQL
+4. Render directly from bucket/object storage
+
+Database should store:
+
+* object_key
+* public_url
+* uploaded_by
+* uploaded_at
+
+==================================================
+UPLOAD FLOW
+===========
+
+New upload flow:
+
+1. User uploads image
+2. Backend validates image
+3. Upload to Replit Object Storage
+4. Save object URL in database
+5. Return persistent URL
+6. Frontend instantly previews image
+
+==================================================
+MIGRATION TASK
+==============
+
+Create migration utility:
+
+* move existing local uploads to Replit Object Storage
+* update database URLs automatically
+
+==================================================
+SOFT DELETE IMPLEMENTATION
+==========================
+
+Current issue:
+Deleting university permanently removes data.
+
+Implement soft delete architecture.
+
+Add:
+
+* deleted_at
+* deleted_by
+* is_deleted
+
+Apply to:
+
+* universities
+* spaces
+* checklist status
+* uploads
+* users
+
+Never permanently delete operational data.
+
+==================================================
+DATABASE INDEXING STRATEGY
+==========================
+
+Add proper indexes for scale.
+
+Expected scale:
+
+* hundreds of universities
+* thousands of checklist rows
+* thousands of uploads
+
+Add indexes on:
+
+* university_uuid
+* zone_id
+* updated_at
+* current_status
+* uploaded_at
+* created_at
+* role
+* email
+
+Add compound indexes where useful.
+
+==================================================
+INPUT VALIDATION
+================
+
+Current issue:
+Zod dependency exists but validation is inconsistent.
+
+Implement strict validation on ALL routes.
+
+Requirements:
+
+* validate body
+* validate params
+* validate query
+* return proper 400 responses
+* prevent malformed payloads
+
+==================================================
+RATE LIMITING
+=============
+
+Add brute-force protection.
+
+Implement:
+
+* express-rate-limit
+
+Protect:
+
+* login
+* uploads
+* auth routes
+* heavy APIs
+
+==================================================
+ERROR HANDLING
+==============
+
+Standardize all API error handling.
+
+Implement:
+
+* centralized error middleware
+* proper error classes
+* request IDs
+* structured logs
+
+Ensure:
+
+* no unhandled promise crashes
+* no raw Prisma errors exposed
+* no stack traces leaked in production
+
+==================================================
+REQUEST LOGGING
+===============
+
+Improve pino logging.
+
+Add:
+
+* request correlation IDs
+* API timing
+* user context
+* error tracing
+
+==================================================
+PAGINATION
+==========
+
+Current issue:
+Some APIs fetch everything.
+
+Implement pagination for:
+
+* universities
+* evidence
+* uploads
+* audit logs
+* checklist history
+
+Add:
+
+* page
+* limit
+* search
+* sorting
+* filtering
+
+==================================================
+BULK ACTIONS
+============
+
+Add:
+
+* bulk checklist update
+* bulk mark done
+* bulk upload
+* bulk timeline edit
+
+Example:
+Select 10 checklist items → mark as Done
+
+==================================================
+REMINDER & NOTIFICATION SYSTEM
+==============================
+
+Implement:
+
+* timeline reminders
+* overdue alerts
+* stale university alerts
+* no movement alerts
+
+Add:
+
+* dashboard alerts
+* email notifications (optional future-ready design)
+* follow-up task system
+
+==================================================
+PERFORMANCE OPTIMIZATION
+========================
+
+Optimize:
+
+* Prisma queries
+* N+1 query issues
+* dashboard aggregations
+* evidence loading
+* image rendering
+
+Implement:
+
+* lazy loading
+* pagination
+* caching where useful
+
+==================================================
+SECURITY HARDENING
+==================
+
+Add:
+
+* helmet
+* CORS hardening
+* secure cookies
+* upload validation
+* MIME validation
+* SQL injection protection
+* XSS sanitization
+
+==================================================
+PRODUCTION READINESS
+====================
+
+Generate:
+
+1. Production architecture cleanup
+2. Object storage integration
+3. Soft delete implementation
+4. Validation middleware
+5. Rate limiting
+6. Logging improvements
+7. Pagination support
+8. Bulk action APIs
+9. Reminder system
+10. Database indexing
+11. Production monitoring
+12. Backup strategy
+
+==================================================
+IMPORTANT
+=========
+
+Goal:
+Transform current MVP into scalable production-grade university infra operations platform.
+
+Prioritize:
+
+1. Persistent file storage
+2. Security
+3. Scalability
+4. Reliability
+5. Data safety
+6. Performance
+7. Maintainability

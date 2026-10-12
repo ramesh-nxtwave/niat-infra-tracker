@@ -1,0 +1,266 @@
+You are a senior full-stack architect 
+
+I already imported my GitHub repository into Replit.
+
+Current Stack:
+
+* Frontend hosted on Vercel
+* Database + Auth on Supabase
+* I want EVERYTHING moved into Replit only
+* Single deployment inside Replit
+* Replit PostgreSQL database
+* Replit Authentication / custom auth
+* Backend APIs hosted inside Replit
+* File uploads and evidence board should work correctly
+* Production-ready architecture
+
+Project Goal:
+Build a complete infra tracker platform for universities.
+
+1. Remove ALL Supabase dependencies completely.
+2. Remove ALL Vercel-specific configurations.
+3. Convert project into:
+
+   * React frontend
+   * Node.js + Express backend
+   * PostgreSQL database inside Replit
+4. Backend and frontend should run together inside Replit.
+5. Use environment variables properly.
+6. Create proper production folder structure.
+7. Create database migrations automatically.
+8. Create seed scripts.
+9. Create API layer cleanly.
+10. Setup file upload support for evidence board images.
+11. Add proper role-based authentication.
+12. Add protected routes.
+13. Add session management.
+14. Add password hashing using bcrypt.
+15. Add JWT authentication.
+16. Add middleware for role checking.
+17. Add audit logging.
+18. Add API validation.
+19. Add proper error handling.
+20. Add loading states and auth persistence.
+
+Use PostgreSQL in Replit.
+
+Generate all SQL migrations and Prisma schema.
+
+Install:
+
+* prisma
+* @prisma/client
+
+Use Prisma ORM.
+
+Create the full schema based on the following tables.
+
+IMPORTANT:
+Convert all Supabase-specific SQL properly into PostgreSQL + Prisma models.
+
+Tables:
+
+* audit_logs
+* checklist_items
+* personnel
+* photo_history
+* space_checklist_history
+* space_checklist_status
+* space_templates
+* spaces
+* status_updates_old
+* universities
+* university_classrooms
+* university_updates
+* users
+
+Implement custom authentication.
+
+Roles:
+
+1. ADMIN
+2. ZONAL_MANAGER
+3. APM
+
+ADMIN:
+
+* Full access to everything
+* Create university
+* Edit university
+* Delete university
+* Manage users
+* Manage zones
+* Access all universities
+* Access all evidence boards
+* Access master tracker
+* Full CRUD permissions everywhere
+
+ZONAL_MANAGER:
+
+* Access only mapped zone universities
+* Can create universities
+* Can edit universities
+* Cannot delete universities
+* Can access:
+
+  * Universities
+  * Overview
+  * Master Tracker
+  * Evidence Board
+* Can manage APMs under their zone
+* Cannot access other zones
+
+APM:
+
+* Access only assigned universities
+* Can update checklist data
+* Can upload evidence/photos
+* Can edit updates
+* Cannot delete universities
+* Cannot create universities
+* Access limited Evidence Board
+* Access only mapped university data
+
+Each university belongs to a zone_id.
+
+Zonal managers should only see universities from their zone_ids.
+
+APMs should only see universities mapped in:
+personnel.university_ids
+
+Implement these modules fully:
+
+1. Authentication
+2. Dashboard
+3. Universities
+4. Overview
+5. Master Tracker
+6. Evidence Board
+7. University Updates
+8. Classroom Tracking
+9. Checklist Management
+10. Audit Logs
+11. User Management
+12. Role Management
+
+Evidence board should:
+
+* Upload images
+* Preview images
+* Store metadata
+* Maintain upload history
+* Map uploads to checklist status
+* Support drag/drop upload
+* Work properly in Replit environment
+
+Create REST APIs for:
+
+* auth
+* universities
+* spaces
+* checklist
+* updates
+* evidence uploads
+* audit logs
+* users
+* role access
+* dashboards
+
+Add:
+
+* pagination
+* filtering
+* search
+* sorting
+
+Frontend should:
+
+* Use protected routes
+* Persist login sessions
+* Redirect unauthorized users
+* Show role-based navigation
+* Use responsive UI
+* Handle loading states
+* Handle API errors gracefully
+
+Frontend:
+
+* React
+* TailwindCSS
+
+Backend:
+
+* Node.js
+* Express.js
+
+Database:
+
+* PostgreSQL (Replit DB)
+
+ORM:
+
+* Prisma
+
+Authentication:
+
+* JWT
+* bcrypt
+
+File Upload:
+
+* multer
+
+Create proper structure:
+
+/client
+/server
+/prisma
+/uploads
+/middleware
+/routes
+/controllers
+/services
+/utils
+
+Generate:
+
+1. Full Prisma schema
+2. All migrations
+3. Backend APIs
+4. Auth system
+5. RBAC middleware
+6. Database connection
+7. File upload system
+8. Protected frontend routes
+9. Seed scripts
+10. Deployment setup
+11. Environment variables
+12. Production-ready setup
+
+Do NOT use Supabase anywhere.
+
+Do NOT use Vercel-specific code.
+
+Everything should run completely inside Replit.
+
+Make the application production-ready and scalable.
+
+Also:
+
+* Fix all imports
+* Fix all broken dependencies
+* Ensure build passes
+* Ensure database migrations work
+* Ensure authentication works
+* Ensure evidence board works
+* Ensure role-based access works
+
+Finally:
+
+1. Generate all code changes
+2. Generate migration scripts
+3. Generate Prisma schema
+4. Generate package.json dependencies
+5. Generate .env.example
+6. Explain how to run locally inside Replit
+7. Explain how to deploy inside Replit

@@ -1,0 +1,170 @@
+FIX IMAGE PREVIEW NOT LOADING ISSUE
+
+Current issue:
+The uploaded image is not rendering in the checklist/evidence section.
+
+UI shows:
+
+* "Image unavailable"
+* broken preview state
+
+This means:
+
+* image URL generation is broken
+  OR
+* static uploads are not exposed correctly
+  OR
+* frontend is requesting wrong path
+  OR
+* auth middleware is blocking image access
+
+==================================================
+EXPECTED BEHAVIOR
+=================
+
+When user uploads image:
+
+1. Image should save successfully
+2. Database should store correct relative path
+3. Frontend should instantly preview image
+4. Refresh should still show image
+5. Clicking image should open full preview
+
+==================================================
+LIKELY ROOT CAUSE
+=================
+
+Current generated URL is wrong.
+
+Probably generating:
+/api/uploads/api/uploads/filename.png
+
+OR:
+frontend is requesting protected route.
+
+==================================================
+BACKEND FIX
+===========
+
+Ensure uploads folder is public.
+
+Use exactly:
+
+```js
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
+```
+
+Do NOT protect uploads route with JWT middleware.
+
+==================================================
+DATABASE FIX
+============
+
+Store ONLY relative path:
+
+Correct:
+uploads/1778870307692-sfrhdei147.jpg
+
+OR:
+/uploads/1778870307692-sfrhdei147.jpg
+
+Do NOT store:
+
+* full URLs
+* duplicated api paths
+
+==================================================
+API RESPONSE FIX
+================
+
+Upload API should return:
+
+```json
+{
+  "success": true,
+  "imageUrl": "/uploads/1778870307692-sfrhdei147.jpg"
+}
+```
+
+==================================================
+FRONTEND FIX
+============
+
+Frontend image rendering should use:
+
+```js
+const imageUrl = `${window.location.origin}${photoPath}`;
+```
+
+Example final URL:
+[https://niatinfratracker.replit.app/uploads/1778870307692-sfrhdei147.jpg](https://niatinfratracker.replit.app/uploads/1778870307692-sfrhdei147.jpg)
+
+==================================================
+IMPORTANT FRONTEND VALIDATION
+=============================
+
+Before rendering image:
+
+* verify image path exists
+* verify image URL is valid
+
+Add fallback handling.
+
+If image fails:
+
+* show retry button
+* show proper error state
+* log broken URL in console
+
+==================================================
+DEBUGGING
+=========
+
+Add console logs temporarily:
+
+```js
+console.log("Stored DB Path:", photoPath);
+console.log("Generated URL:", imageUrl);
+```
+
+==================================================
+VERIFY THESE THINGS
+===================
+
+1. Open browser directly:
+   [https://niatinfratracker.replit.app/uploads/filename.jpg](https://niatinfratracker.replit.app/uploads/filename.jpg)
+
+2. Verify image loads publicly
+
+3. Check browser network tab:
+
+* 404?
+* 401 unauthorized?
+* wrong path?
+
+4. Verify uploads folder actually contains file
+
+==================================================
+UI IMPROVEMENTS
+===============
+
+Improve image card:
+
+* loading skeleton
+* retry state
+* preview modal
+* remove image option
+* upload progress
+* mobile responsive preview
+
+==================================================
+FINAL TASKS
+===========
+
+1. Fix upload path generation
+2. Fix image preview rendering
+3. Remove auth restriction on uploads
+4. Verify DB path correctness
+5. Verify images survive refresh
+6. Verify mobile image preview
+7. Run complete upload flow testing

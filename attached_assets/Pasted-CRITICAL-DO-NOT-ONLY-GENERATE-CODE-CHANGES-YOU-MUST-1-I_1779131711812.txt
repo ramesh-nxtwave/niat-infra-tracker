@@ -1,0 +1,172 @@
+CRITICAL: DO NOT ONLY GENERATE CODE CHANGES.
+YOU MUST:
+1. IMPLEMENT the fixes
+2. RUN the application
+3. TEST the flows
+4. VERIFY the issue is fixed in browser
+5. SHOW which files changed
+6. SHOW DB queries executed
+7. RESTART the app after changes
+8. CONFIRM final working status
+
+The previous prompts were not properly reflected in the application. 
+This time complete end-to-end implementation and validation is required.
+
+====================================================
+ISSUES TO FIX IMMEDIATELY
+====================================================
+
+----------------------------------------------------
+1. OVERALL CLASSROOM STATUS TRANSITIONS NOT WORKING
+----------------------------------------------------
+
+BUG:
+When changing status:
+- Yet to start -> In Progress works
+- In Progress -> Done does NOT work
+- Other statuses like:
+  - Blocker
+  - No info as of now
+  - Need to revamp
+are inconsistent.
+
+FIX:
+- Ensure ALL status transitions work properly.
+- Fix backend update logic.
+- Fix frontend optimistic state updates.
+- Ensure DB persists correctly.
+- Ensure overall readiness recalculates after EVERY status update.
+
+VALIDATE:
+- Change status across all combinations.
+- Refresh page.
+- Verify persisted in database.
+
+----------------------------------------------------
+2. BULK DUPLICATION / APPLY TO MULTIPLE CLASSROOMS
+----------------------------------------------------
+
+USE CASE:
+University may have:
+- Classroom 201
+- Classroom 202
+- Classroom 203
+
+If Flooring or Roller Blinds status is same across rooms,
+APM should not manually update all rooms one by one.
+
+REQUIRED FLOW:
+When updating a checklist item:
+Example:
+- Classroom 203 Flooring = Done
+- Classroom 202 Flooring = Yet to start
+
+If user changes Classroom 202 Flooring -> In Progress,
+show modal:
+
+"Do you want to apply this update to:
+1. Only this classroom
+2. Selected classrooms
+3. All classrooms"
+
+If selected classrooms:
+- Show checkbox list of rooms.
+
+If all classrooms:
+- Update SAME checklist item across all rooms.
+
+RULES:
+- Copy:
+  - status
+  - remarks
+  - timelines
+  - blocker status
+  - photos optional
+
+DO NOT overwrite unrelated checklist items.
+
+IMPLEMENT:
+- Backend bulk update endpoint
+- Frontend modal
+- Transaction-safe updates
+
+VALIDATE:
+- Update 1 room
+- Apply to all
+- Refresh
+- Verify DB updated correctly
+
+----------------------------------------------------
+3. ONLY ADMIN CAN DELETE PHOTOS
+----------------------------------------------------
+
+CURRENT ISSUE:
+Zonal manager and APM can delete photos.
+
+FIX:
+- Only admin can delete photos.
+- Zonal manager/APM can only upload/view.
+
+REQUIREMENTS:
+- Hide delete button for non-admin users
+- Protect backend route with role middleware
+
+VALIDATE:
+- Login as APM
+- Verify delete not visible
+- Attempt API call manually
+- Must return 403
+
+----------------------------------------------------
+4. CLASSROOM RENAME BREAKS CHECKLIST
+----------------------------------------------------
+
+BUG:
+Changing:
+"classroom 101"
+to
+"classroom 1"
+
+causes:
+"No checklist items found for this room"
+
+ROOT CAUSE:
+Checklist linkage depends on roomId/name.
+
+FIX:
+- Use stable classroom UUID internally.
+- Checklist relationships MUST use classroom UUID.
+- Renaming classroom should NOT recreate checklist.
+- Existing checklist items must remain attached.
+
+IMPORTANT:
+Room name is display-only.
+UUID is the actual relation key.
+
+MIGRATION REQUIRED:
+- Fix existing classrooms
+- Preserve existing data
+
+VALIDATE:
+- Create classroom
+- Add checklist updates
+- Rename classroom
+- Refresh
+- Verify checklist still exists
+
+----------------------------------------------------
+5. PHOTO HISTORY CLEANUP
+----------------------------------------------------
+
+ISSUE:
+Deleted photos still visible.
+
+FIX:
+- Remove stale photo history references
+- Soft delete photo records
+- Frontend should hide deleted photos
+
+VALIDATE:
+- Delete photo
+- Refresh
+- Verify removed everywhere

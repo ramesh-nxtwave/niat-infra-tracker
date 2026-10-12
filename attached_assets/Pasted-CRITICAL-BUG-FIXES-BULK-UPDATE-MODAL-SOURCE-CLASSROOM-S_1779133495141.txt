@@ -1,0 +1,239 @@
+CRITICAL BUG FIXES — BULK UPDATE MODAL & SOURCE CLASSROOM STATUS
+
+==================================================
+
+1. SOURCE CLASSROOM STATUS NOT UPDATING
+   ==================================================
+
+CURRENT BUG:
+
+Example:
+
+* User changes Classroom 3 Flooring:
+  Yet to start -> In Progress
+
+* Popup appears:
+  Apply to:
+
+  * Classroom 1
+  * Classroom 2
+  * All classrooms
+
+When user selects Classroom 1:
+
+* Classroom 1 gets updated correctly
+* BUT Classroom 3 itself DOES NOT update
+
+THIS IS WRONG.
+
+REQUIRED FIX:
+
+The source classroom (the classroom where user initiated the change)
+MUST ALWAYS update first.
+
+Then apply duplication to selected classrooms.
+
+CORRECT FLOW:
+
+Example:
+Classroom 3 Flooring:
+Yet to start -> In Progress
+
+User selects:
+Apply to Classroom 1
+
+RESULT SHOULD BE:
+✅ Classroom 3 -> In Progress
+✅ Classroom 1 -> In Progress
+
+NOT:
+❌ Classroom 3 unchanged
+✅ Classroom 1 updated
+
+BACKEND FIX:
+
+Ensure bulk update API:
+
+1. always includes source classroom
+2. updates source classroom first
+3. then updates selected classrooms
+
+Frontend:
+
+* optimistic UI should update source room immediately
+* prevent stale local state overwrite
+
+VALIDATE:
+
+* only current classroom
+* selected classrooms
+* all classrooms
+
+Refresh page and verify DB persistence.
+
+==================================================
+2. BULK UPDATE POPUP POSITIONING ISSUE
+======================================
+
+CURRENT ISSUE:
+
+Checklist is very long.
+
+Popup/modal appears somewhere inside checklist flow.
+
+User must scroll to find popup.
+
+This is BAD UX and users will not understand.
+
+REQUIRED FIX:
+
+Convert popup into PROPER CENTER SCREEN MODAL.
+
+MODAL REQUIREMENTS:
+
+* fixed position
+* centered on viewport
+* dark backdrop overlay
+* always visible on top
+* mobile responsive
+* sticky footer buttons
+
+STYLE REQUIREMENTS:
+
+Desktop:
+
+* centered modal
+* max width 500px
+* overlay blur/background
+
+Mobile:
+
+* bottom sheet OR centered modal
+* full width with padding
+* easy tap targets
+
+BEHAVIOR:
+
+* disable background scrolling when modal open
+* ESC key closes modal
+* clicking outside closes modal
+* maintain selected state
+
+==================================================
+3. IMPROVE BULK UPDATE UX
+=========================
+
+CURRENT FLOW IS CONFUSING.
+
+NEW FLOW:
+
+When changing checklist item:
+Show modal:
+
+---
+
+Apply this update to:
+
+( ) Only this classroom
+( ) Selected classrooms
+( ) All classrooms
+
+---
+
+If "Selected classrooms":
+show checkbox list.
+
+Example:
+☑ Classroom 1
+☑ Classroom 2
+☐ Classroom 4
+
+---
+
+Buttons:
+[Cancel] [Apply Updates]
+
+---
+
+IMPORTANT:
+Display CURRENT classroom clearly:
+
+"Updating from: Classroom 3"
+
+This avoids confusion.
+
+==================================================
+4. PERFORMANCE & STATE FIX
+==========================
+
+Ensure:
+
+* modal does not rerender entire checklist
+* checklist scroll position preserved
+* no flickering
+* no duplicate API calls
+
+Use:
+
+* memoization
+* local modal state
+* isolated update state
+
+==================================================
+5. MOBILE UX FIX
+================
+
+On mobile:
+
+* modal should NOT overflow screen
+* checklist behind should freeze
+* buttons large enough for touch
+* scrolling inside modal only
+
+==================================================
+6. VALIDATION REQUIRED
+======================
+
+AFTER FIX:
+TEST THESE CASES:
+
+CASE 1:
+Classroom 3 only
+→ updates correctly
+
+CASE 2:
+Classroom 3 + Classroom 1
+→ both update correctly
+
+CASE 3:
+Apply to all classrooms
+→ all update correctly
+
+CASE 4:
+Refresh page
+→ statuses persist
+
+CASE 5:
+Mobile screen
+→ modal centered and visible immediately
+
+CASE 6:
+Long checklist page
+→ modal still visible without scrolling
+
+==================================================
+IMPORTANT
+=========
+
+DO NOT ONLY CHANGE CSS.
+
+VERIFY:
+
+* backend update logic
+* frontend state logic
+* modal portal rendering
+* optimistic updates
+* DB persistence
+
+RUN THE APPLICATION AFTER FIXES
+AND VERIFY END-TO-END.

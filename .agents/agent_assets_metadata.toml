@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "UJv6J6gjVaK2cNELw0Im-"
+uri = "file://exports/compact-scan-row.jpg"
+type = "image"
+title = "Compact Scan Row"
+description = "Shareable image of the Geeta University pending-item summary in the Compact Scan Row layout."
+logical_id = "9e878389-e3e9-46b6-8569-f9a24ad03724"
+content_hash = "sha256:76cb375c83821efee1c3dc3163471a391c8405eb088764bc66355707b3e44420"
+size = 23573
+mtime_ms = 1789139548117
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:5f5ee4b2-c70e-42a2-b8ae-7fdbe7149b16/9e878389-e3e9-46b6-8569-f9a24ad03724/138745c2-aae3-4514-bffb-7accd255e473"
+storage_version_token = "1789139563375972"
+content_type = "image/jpeg"

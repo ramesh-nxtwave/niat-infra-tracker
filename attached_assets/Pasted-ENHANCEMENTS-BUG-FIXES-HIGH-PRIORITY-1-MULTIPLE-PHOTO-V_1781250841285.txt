@@ -1,0 +1,219 @@
+ENHANCEMENTS & BUG FIXES (HIGH PRIORITY)
+
+1. MULTIPLE PHOTO & VIDEO UPLOAD SUPPORT
+
+Current Issue:
+Users can upload only a single file.
+
+Required Fix:
+
+* Allow multiple photo uploads at once.
+* Allow multiple video uploads at once.
+* Allow drag-and-drop upload.
+* Show upload progress indicator.
+* Allow preview before upload.
+* Allow delete and re-upload.
+* Store files in Replit Object Storage.
+* Support bulk upload of 20+ files in one action.
+
+Supported Formats:
+
+Images:
+
+* JPG
+* JPEG
+* PNG
+* WEBP
+
+Videos:
+
+* MP4
+* MOV
+* AVI
+
+Display:
+
+* Gallery View
+* Grid View
+* Full-screen Preview
+* Download Option
+
+---
+
+2. AUTO LOGOUT ISSUE
+
+Current Issue:
+Portal automatically logs users out approximately every 15 minutes.
+
+Required Fix:
+
+* Investigate session timeout configuration.
+* Implement persistent login.
+* Keep user logged in for a minimum of 8 hours.
+* Refresh session automatically in the background.
+* Prevent logout on page refresh.
+* Prevent logout during active usage.
+* Show warning popup before actual session expiry.
+
+Technical Requirements:
+
+* Fix session handling.
+* Implement proper token refresh mechanism.
+* Store session securely.
+* Support "Remember Me" option.
+
+---
+
+3. MULTI-SELECT FILTERS
+
+Current Issue:
+Users can only select one value at a time in filters.
+
+Required Fix:
+Convert all major filters into multi-select dropdowns.
+
+Applicable Filters:
+
+* Zone
+* University
+* Manager
+* Workstream
+* Status
+* Category
+* Priority
+* State
+
+Examples:
+
+Zone Filter:
+✓ South Zone
+✓ North Zone
+✓ East Zone
+
+Manager Filter:
+✓ Riteesh
+✓ Ramesh
+✓ Karthik
+
+Status Filter:
+✓ In Progress
+✓ Delayed
+✓ Completed
+
+All selected values should be applied together.
+
+---
+
+4. ADVANCED FILTER EXPERIENCE
+
+Add:
+
+* Search within dropdown
+* Select All
+* Clear All
+* Saved Filter Views
+* Recent Filters
+
+Example:
+User can save:
+
+"My Universities"
+"Delayed Infra Items"
+"Escalated Cases"
+
+---
+
+5. DASHBOARD IMPROVEMENTS
+
+Add quick filter chips:
+
+* Delayed
+* Escalated
+* This Week
+* This Month
+* Pending Approvals
+* Infra Pending
+* BOS Pending
+* Website Pending
+
+Dashboard cards should update instantly based on selected filters.
+
+---
+
+6. FILE MANAGEMENT ENHANCEMENTS
+
+Each uploaded file should store:
+
+* Uploaded By
+* Upload Date
+* University
+* Workstream
+* Remarks
+
+Provide:
+
+* Sort by Date
+* Sort by User
+* Search Files
+* Bulk Download
+* Bulk Delete (Admin Only)
+
+---
+
+7. PERFORMANCE OPTIMIZATION
+
+Because users upload images and videos:
+
+* Implement lazy loading.
+* Compress images before upload.
+* Stream video uploads.
+* Use pagination for file galleries.
+* Prevent page lag when loading large datasets.
+
+---
+
+8. USER EXPERIENCE IMPROVEMENTS
+
+Add:
+
+* Auto-save every 30 seconds.
+* Unsaved changes warning.
+* Success notifications after updates.
+* Keyboard-friendly navigation.
+* Loading indicators.
+* Better mobile responsiveness.
+
+---
+
+9. AUDIT LOGGING
+
+Track:
+
+* File uploads
+* File deletions
+* Status changes
+* Login/logout events
+* Filter usage
+* Record updates
+
+Store:
+
+* User
+* Timestamp
+* Old Value
+* New Value
+
+---
+
+10. FINAL ACCEPTANCE CRITERIA
+
+Application should support:
+
+✓ Multiple image uploads
+✓ Multiple video uploads
+✓ No automatic logout every 15 minutes
+✓ Multi-select filters
+✓ Better dashboard filtering
+✓ Fast performance with large datasets
+✓ Enterprise-grade user experience
+✓ Stable production deployment on Replit

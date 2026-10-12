@@ -1,0 +1,149 @@
+Yes — this usually happens because of one of these implementation issues in the table layout.
+
+Tell Replit/dev team to specifically check these points:
+
+### Likely Issue
+
+The sticky behavior will NOT work properly if:
+
+* `overflow-x` or `overflow-y` is applied incorrectly
+* Parent container has `overflow: hidden`
+* Table is inside nested scroll containers
+* `position: sticky` is missing proper `left` / `top`
+* z-index/background is not applied
+* Using flex incorrectly around table
+* Table is virtualized improperly
+
+---
+
+# Exact Expected Implementation
+
+## 1. Sticky Header Row
+
+The top row should use:
+
+```css id="n3o2h6"
+thead th {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: white;
+}
+```
+
+---
+
+# 2. Sticky University Column
+
+Only University column should remain sticky:
+
+```css id="a7j4k1"
+.university-column {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: white;
+}
+```
+
+---
+
+# 3. Important Container Fix
+
+The table wrapper should have ONLY:
+
+```css id="uw6p9q"
+overflow: auto;
+```
+
+NOT:
+
+```css id="e5v8m2"
+overflow: hidden;
+```
+
+---
+
+# 4. Common Replit/Tailwind Issue
+
+If using Tailwind:
+
+Correct:
+
+```html id="t1c4y8"
+<div class="overflow-auto">
+```
+
+Wrong:
+
+```html id="r9n2f5"
+<div class="overflow-hidden">
+```
+
+---
+
+# 5. z-index Layering Required
+
+Otherwise sticky column disappears while scrolling.
+
+Use:
+
+```css id="m4x7b3"
+thead th {
+  z-index: 30;
+}
+
+.university-column {
+  z-index: 25;
+}
+```
+
+---
+
+# 6. Background Mandatory
+
+Without background:
+
+* content overlaps
+* transparency issue occurs
+
+Use:
+
+```css id="p8d1w6"
+background: #fff;
+```
+
+---
+
+# 7. If Using React Table / TanStack Table
+
+Need:
+
+* sticky pinning enabled
+* manual column pinning
+
+Because default table rendering does not automatically support sticky left columns.
+
+---
+
+# Final Expected Behavior
+
+✅ Header stays fixed while scrolling down
+✅ University column stays fixed while horizontal scrolling
+✅ Remaining columns scroll normally
+✅ No UI overlap
+✅ No flickering
+✅ Smooth enterprise dashboard feel
+
+---
+
+# Ask Replit Team To Specifically Verify
+
+* Sticky works after refresh
+* Sticky works with filters
+* Sticky works with large datasets
+* Sticky works on laptop resolutions
+* Sticky works when zooming browser
+* Sticky works after sidebar collapse/expand
+
+Most probably this is a CSS overflow container issue, not a data issue.

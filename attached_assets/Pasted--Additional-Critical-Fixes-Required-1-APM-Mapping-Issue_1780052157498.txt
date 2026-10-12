@@ -1,0 +1,126 @@
+### Additional Critical Fixes Required
+
+1. APM Mapping Issue Still Exists
+
+Example:
+
+* In AMET University → Edit Info section
+* APM was updated to “Test APM”
+* But in Access Control, it still shows:
+
+  * “No universities assigned”
+
+This means the university-to-APM mapping is not syncing properly.
+
+Need to verify:
+
+* University table → APM ID mapping
+* Access control query
+* Relationship sync after update
+* API save response
+* State refresh after saving
+* Foreign key/reference mapping
+
+Expected behavior:
+
+* Once APM is updated in University Edit Info,
+* It should immediately reflect in:
+
+  * Access Control
+  * Assigned Universities
+  * APM dashboard/views
+
+---
+
+2. Dark Mode UI Needs Improvement
+
+Current status:
+
+* Light mode looks good
+* Dark mode visibility/UI quality is poor
+
+Issues:
+
+* Text visibility/contrast problems
+* Some cards/blocs are difficult to read
+* Colors are not matching premium dashboard standards
+* UI feels inconsistent in dark mode
+
+Need improvements:
+
+* Better contrast ratios
+* Softer dark backgrounds
+* Proper text readability
+* Consistent card colors
+* Better hover states
+* Proper border visibility
+* Better table readability in dark mode
+
+Goal:
+
+* Dark mode should look premium and enterprise-grade, similar to modern 2026 SaaS dashboards.
+
+---
+
+3. Merge Daily Updates & Action Items
+
+Currently:
+
+* Daily Updates
+* Action Items
+
+are separate sections.
+
+Required:
+
+* Combine both into a single sub-tab/module.
+
+Expected structure:
+
+* One unified update section where users can:
+
+  * Add daily updates
+  * Add action items
+  * Track progress
+  * Upload images if needed
+
+Reason:
+
+* Easier for operational users
+* Faster updates
+* Better tracking experience
+* Avoid duplicate entries across two tabs
+
+---
+
+4. Session/Login Issue Still Not Resolved
+
+Current issue:
+
+* Every ~15 minutes application asks users to login again.
+* Token/session expiry still happening.
+
+This is causing:
+
+* Interrupted updates
+* Lost work
+* Poor operational experience
+
+Required Fix:
+
+* Extend session validity to 1 month.
+* Implement proper refresh-token/session-refresh handling.
+
+Need to verify:
+
+* JWT expiration
+* Cookie expiration
+* Auth middleware
+* Session persistence
+* Auto token refresh
+* Replit auth/session configs
+
+Expected behavior:
+
+* User should stay logged in continuously unless manually logged out.
+* No “Token expired” issue during active usage.

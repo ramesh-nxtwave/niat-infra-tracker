@@ -1,0 +1,179 @@
+FIX IMAGE STORAGE AND AUTHORIZATION ISSUES
+
+==================================================
+IMAGE STORAGE ARCHITECTURE
+==========================
+
+Do NOT store image binary data inside PostgreSQL.
+
+Use this architecture:
+
+1. Store actual uploaded image files in:
+   /uploads
+
+2. Store ONLY metadata in database:
+
+   * id
+   * image_url
+   * uploaded_by
+   * uploaded_at
+   * checklist_status_id
+   * university_id
+   * remarks
+
+==================================================
+CURRENT ISSUE
+=============
+
+Broken generated URL:
+https://niatinfratracker.replit.app/api/uploads/api/uploads/1778870307692-sfrhdei147.jpg
+
+Correct URL should be:
+https://niatinfratracker.replit.app/uploads/1778870307692-sfrhdei147.jpg
+
+Problem:
+
+* /api/uploads is duplicated
+* frontend and backend path generation is wrong
+
+==================================================
+REQUIRED FIXES
+==============
+
+Backend:
+Use:
+app.use('/uploads', express.static(path.join(__dirname, '../uploads')))
+
+Save only relative path:
+Example:
+uploads/1778870307692-sfrhdei147.jpg
+
+Do NOT save:
+
+* full URL
+* duplicated api path
+
+==================================================
+UPLOAD API RESPONSE
+===================
+
+Upload API should return:
+{
+success: true,
+imageUrl: "/uploads/1778870307692-sfrhdei147.jpg"
+}
+
+==================================================
+FRONTEND FIX
+============
+
+Frontend should render image like:
+
+${BASE_URL}${imageUrl}
+
+Result:
+https://niatinfratracker.replit.app/uploads/1778870307692-sfrhdei147.jpg
+
+Do NOT prepend:
+
+* /api/uploads again
+
+==================================================
+UNAUTHORIZED ISSUE
+==================
+
+Currently uploaded image URLs show:
+Unauthorized
+
+Fix:
+
+1. Uploaded static images should NOT require JWT auth
+2. Public image preview should work correctly
+3. Do NOT apply auth middleware on:
+   /uploads/*
+
+Example:
+app.use('/uploads', express.static('uploads'))
+
+==================================================
+AUTH FIX
+========
+
+Ensure JWT middleware is only applied to protected APIs.
+
+Do NOT protect:
+
+* static uploads
+* login route
+* public assets
+
+Protect only:
+
+* /api/*
+* secured business routes
+
+==================================================
+FILE VALIDATION
+===============
+
+Add:
+
+* file size validation
+* image type validation
+* unique filenames
+* upload error handling
+
+Allowed:
+
+* jpg
+* jpeg
+* png
+* webp
+
+==================================================
+EVIDENCE BOARD FIXES
+====================
+
+Evidence board should:
+
+* instantly preview uploaded image
+* support multiple uploads
+* support delete image
+* support mobile uploads
+* show upload timestamp
+* show uploaded by
+* work after page refresh
+
+==================================================
+DATABASE OPTIMIZATION
+=====================
+
+Create proper photo table structure.
+
+Suggested fields:
+
+* id
+* image_url
+* university_uuid
+* checklist_status_id
+* uploaded_by
+* uploaded_at
+* remarks
+* created_at
+* updated_at
+
+Add indexes properly.
+
+==================================================
+IMPORTANT
+=========
+
+After fixing:
+
+1. Run full upload flow test
+2. Verify image opens directly in browser
+3. Verify no unauthorized error
+4. Verify evidence board preview works
+5. Verify URLs are generated correctly
+6. Verify mobile uploads work
+7. Verify uploads persist after refresh

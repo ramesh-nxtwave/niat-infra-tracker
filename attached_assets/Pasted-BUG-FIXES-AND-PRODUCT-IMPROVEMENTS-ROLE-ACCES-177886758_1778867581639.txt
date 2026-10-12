@@ -1,0 +1,283 @@
+BUG FIXES AND PRODUCT IMPROVEMENTS
+
+==================================================
+ROLE ACCESS ISSUE
+=================
+
+Currently:
+When a user is created as ZONAL_MANAGER (example: Ramesh), the user is still able to see ALL universities.
+
+Fix this immediately.
+
+Expected behavior:
+
+* ADMIN → can see all universities
+* ZONAL_MANAGER → should ONLY see universities mapped to their zone_ids
+* APM → should ONLY see assigned universities
+
+Implement backend-level filtering.
+
+Do NOT rely only on frontend filtering.
+
+Apply RBAC checks in:
+
+* APIs
+* Database queries
+* Dashboard counts
+* University listings
+* Evidence board
+* Master tracker
+* Search APIs
+* Filters
+
+==================================================
+IMAGE UPLOAD ISSUE
+==================
+
+Current issue:
+Images are uploading but preview is not working.
+
+Uploaded path currently shows like:
+
+* /api/uploads/1778866990820-1m5tod7z4jo.png
+
+Fix requirements:
+
+1. Uploaded images should render properly in UI
+
+2. Images should open in browser correctly
+
+3. Static uploads folder should be exposed correctly in Express
+
+4. Use:
+   app.use('/uploads', express.static('uploads'))
+
+5. Save proper public image URLs in database
+
+6. Evidence board should display:
+
+   * image preview
+   * upload date
+   * uploaded by
+   * checklist mapping
+
+7. Fix broken save button issue asking for URL manually
+
+Expected flow:
+
+* User uploads image
+* Backend stores image in uploads folder
+* Database stores generated file path automatically
+* Frontend shows uploaded image preview automatically
+* No manual URL input required
+
+==================================================
+DATABASE STRUCTURE REVIEW
+=========================
+
+Review and optimize database structure completely.
+
+Check:
+
+* normalization
+* indexing
+* relationships
+* foreign keys
+* query performance
+* redundant columns
+* scalability
+
+Add:
+
+* created_by
+* updated_by
+* soft delete support where needed
+* audit timestamps
+* proper cascading rules
+
+Optimize Prisma schema properly.
+
+==================================================
+TIMELINE & FOLLOW-UP SYSTEM
+===========================
+
+Implement advanced follow-up and reminder tracking.
+
+Requirements:
+
+1. Each university should have:
+
+   * target timeline
+   * internal timeline
+   * confidence percentage
+   * probability status
+   * apm confidence date
+
+2. Add movement tracking:
+
+   * identify universities where movement/progress is not happening
+   * highlight stale universities
+   * overdue indicators
+
+3. Reminder system:
+   If a target date is:
+   25 May 2026
+
+Then:
+system should automatically remind/follow-up from:
+20 May 2026
+
+Add configurable reminder days.
+
+==================================================
+REMOVE UNUSED FIELDS
+====================
+
+Remove:
+
+* vendor details
+* vendor required
+* vendor remarks
+* poc details
+
+Remove from:
+
+* database
+* APIs
+* frontend
+* forms
+* master tracker
+* evidence board
+
+==================================================
+SPACE READINESS UI
+==================
+
+Simplify UI.
+
+Move space readiness into:
+
+* subtabs
+* cleaner grouped sections
+
+Improve:
+
+* readability
+* navigation
+* mobile responsiveness
+
+==================================================
+UNIVERSITY CARD IMPROVEMENTS
+============================
+
+Add:
+
+* number of students
+* efforts required
+
+Efforts Required values:
+
+1. HIGH
+2. MEDIUM
+3. LOW
+
+Replace zone display in university cards with:
+
+* efforts required
+
+Student count should come from university info.
+
+==================================================
+MASTER TRACKER IMPROVEMENTS
+===========================
+
+Simplify master tracker UI.
+
+Add:
+
+* allocation pending remarks
+* better filters
+* cleaner table design
+* mobile responsive layout
+* grouped checklist view
+
+==================================================
+DATE FORMAT
+===========
+
+Change ALL date formats globally to:
+
+31 May 2026
+
+Apply consistently in:
+
+* frontend
+* tables
+* forms
+* exports
+* filters
+* reminders
+
+==================================================
+CHECKLIST IMPROVEMENTS
+======================
+
+Add:
+
+* start date
+* end date
+
+for checklist tracking.
+
+==================================================
+CLASSROOM MANAGEMENT
+====================
+
+Add edit option in:
+
+* overall classroom management section
+
+Allow:
+
+* bulk edit
+* quick update
+* inline editing
+
+==================================================
+DASHBOARD IMPROVEMENTS
+======================
+
+Add dashboard widgets for:
+
+* overdue universities
+* upcoming timelines
+* high effort universities
+* no movement universities
+* confidence levels
+* completion percentages
+* recent uploads
+* recent updates
+
+==================================================
+IMPORTANT
+=========
+
+Ensure:
+
+* backend APIs are secure
+* role access is fully enforced
+* uploads work correctly
+* database is optimized
+* mobile UI works properly
+* all modules are production-ready
+
+Finally:
+
+1. Refactor existing code properly
+2. Fix all RBAC issues
+3. Fix image rendering
+4. Fix upload flow
+5. Optimize database schema
+6. Simplify UI
+7. Improve mobile responsiveness
+8. Run production build and fix all errors

@@ -1,0 +1,211 @@
+### AI Automated Reporting & Email Automation Requirement
+
+Need to build an AI-generated automated reporting system inside the Infra Tracker.
+
+### Email Recipients
+
+Reports should automatically be sent to:
+
+* [varshith@nxtwave.tech](mailto:varshith@nxtwave.tech)
+* [karthik@nxtwave.tech](mailto:karthik@nxtwave.tech)
+
+---
+
+# Report Requirements
+
+The AI should automatically prepare and send reports containing:
+
+## 1. Allocation Status Report
+
+Need summary of:
+
+* Allocated universities
+* Not allocated universities
+
+Example:
+
+### Zones:
+
+* Ramesh → Zones 3, 4, 5
+
+Need:
+
+* Count of allocated universities
+* Count of not allocated universities
+* Full list of not allocated universities
+
+Example format:
+
+| Status        | Count |
+| ------------- | ----- |
+| Allocated     | 12    |
+| Not Allocated | 3     |
+
+### Not Allocated Universities:
+
+* University 1
+* University 2
+* University 3
+
+---
+
+## 2. Model Classroom Timeline Status
+
+Need AI-generated status report showing:
+
+* Universities with timelines assigned
+* Universities without timelines
+* Delayed timelines
+* Upcoming deadlines
+
+Suggested statuses:
+
+* On Track
+* Delayed
+* Timeline Missing
+* Completed
+
+---
+
+# Automation Frequency
+
+Need automatic email generation:
+
+* Every 3 days
+
+The process should:
+
+1. Fetch latest tracker data
+2. Generate AI summary
+3. Prepare readable email
+4. Send automatically
+
+---
+
+# Suggested Email Structure
+
+### Subject:
+
+Infra Tracker – Allocation & Timeline Status Report
+
+### Sections:
+
+1. Overall Summary
+2. Allocation Status
+3. Pending/Unallocated Universities
+4. Model Classroom Timeline Status
+5. Critical Delays
+6. Action Required
+
+---
+
+# Important Functional Requirements
+
+## AI Summary Generation
+
+The AI should automatically generate:
+
+* Key observations
+* Delays
+* Missing allocations
+* Risks
+* Pending timelines
+
+Instead of only sending raw table data.
+
+---
+
+# Required Backend Features
+
+## Scheduler / Cron Job
+
+Need automated scheduler:
+
+* Runs every 3 days
+
+Possible implementation:
+
+* node-cron
+* cron jobs
+* background worker
+
+---
+
+# Required Filters/Queries
+
+Need backend APIs for:
+
+* Allocated universities
+* Non-allocated universities
+* Timeline status
+* Missing timeline data
+* Zone-wise filtering
+* APM-wise filtering
+
+---
+
+# Email Service Integration
+
+Need integration with:
+
+* Resend
+* SendGrid
+* Nodemailer
+* Gmail SMTP
+
+Preferred:
+
+* Professional email template
+* HTML email formatting
+
+---
+
+# Suggested AI Insights
+
+The AI report should automatically highlight:
+
+* Universities without allocation
+* Universities without timelines
+* Delayed timelines
+* Low readiness %
+* Pending action items
+
+---
+
+# Example Expected Output
+
+### Allocation Status
+
+* Total Universities: 17
+* Allocated: 14
+* Not Allocated: 3
+
+### Not Allocated Universities
+
+* XYZ University
+* ABC University
+* DEF University
+
+### Timeline Summary
+
+* On Track: 9
+* Delayed: 4
+* Timeline Missing: 2
+
+### Critical Attention Required
+
+* Universities without assigned APMs
+* Timelines overdue by >7 days
+* Readiness below 30%
+
+---
+
+# Important
+
+This should be:
+
+* Fully automated
+* AI-generated
+* Sent every 3 days
+* Dynamic based on latest tracker data
+* No manual intervention required after setup

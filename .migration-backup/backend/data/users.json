@@ -1,0 +1,45 @@
+[
+  {
+    "id": "1",
+    "email": "riteesh.reddy@nxtwave.co.in",
+    "password": "admin123",
+    "role": "admin",
+    "name": "Riteesh Reddy"
+  },
+  {
+    "id": "2",
+    "email": "ramesh@nxtwave.co.in",
+    "password": "ramesh@123",
+    "role": "zonal_manager",
+    "name": "Ramesh",
+    "zoneId": 4,
+    "zoneIds": [
+      4,
+      3,
+      5
+    ]
+  },
+  {
+    "id": "3",
+    "email": "sumith@nxtwave.co.in",
+    "password": "sumith@123",
+    "role": "zonal_manager",
+    "name": "Sumith",
+    "zoneId": 2,
+    "zoneIds": [
+      2,
+      1
+    ]
+  },
+  {
+    "id": "1778485550809",
+    "name": "Nikhil",
+    "email": "nikhil@nxtwave.co.in",
+    "password": "nikhil@123",
+    "role": "apm",
+    "universityIds": [
+      "UNI-019",
+      "UNI-012"
+    ]
+  }
+]

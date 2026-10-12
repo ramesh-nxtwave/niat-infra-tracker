@@ -1,0 +1,436 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                     String                   @id @default(cuid())
+  name                   String
+  email                  String                   @unique
+  passwordHash           String                   @map("password_hash")
+  role                   String                   @default("apm")
+  zoneIds                Int[]                    @default([]) @map("zone_ids")
+  universityIds          String[]                 @default([]) @map("university_ids")
+  isActive               Boolean                  @default(true) @map("is_active")
+  createdAt              DateTime                 @default(now()) @map("created_at")
+  updatedAt              DateTime                 @updatedAt @map("updated_at")
+  deletedAt              DateTime?                @map("deleted_at")
+  deletedBy              String?                  @map("deleted_by")
+  isDeleted              Boolean                  @default(false) @map("is_deleted")
+  auditLogs              AuditLog[]
+  checklistStatusHistory ChecklistStatusHistory[]
+  assistantConversations AssistantConversation[]
+
+  @@index([role])
+  @@index([email])
+  @@index([isDeleted])
+  @@map("users")
+}
+
+model AssistantConversation {
+  id        String             @id @default(cuid())
+  userId    String             @map("user_id")
+  title     String
+  revision  Int                @default(0)
+  createdAt DateTime           @default(now()) @map("created_at")
+  updatedAt DateTime           @updatedAt @map("updated_at")
+  user      User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  AssistantMessage[]
+
+  @@index([userId, updatedAt])
+  @@map("assistant_conversations")
+}
+
+model AssistantMessage {
+  id                         String                @id @default(cuid())
+  conversationId             String                @map("conversation_id")
+  sequence                   Int                   @default(autoincrement())
+  role                       String
+  content                    String
+  records                    Json?
+  authorizationUniversityIds String[]              @default([]) @map("authorization_university_ids")
+  authorizationComplete      Boolean               @default(false) @map("authorization_complete")
+  createdAt                  DateTime              @default(now()) @map("created_at")
+  conversation               AssistantConversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId, createdAt])
+  @@index([conversationId, sequence])
+  @@map("assistant_messages")
+}
+
+model University {
+  id                       String                   @id @default(cuid())
+  code                     String?                  @unique
+  name                     String
+  location                 String?
+  targetDate               String?                  @map("target_date")
+  startDate                String?                  @map("start_date")
+  zoneId                   Int?                     @map("zone_id")
+  apmName                  String?                  @map("apm_name")
+  numClassrooms            Int?                     @map("num_classrooms")
+  classroomCapacity        Int?                     @map("classroom_capacity")
+  classroomAllocationDone  Boolean                  @default(false) @map("classroom_allocation_done")
+  riskStatus               String                   @default("GREEN") @map("risk_status")
+  overallReadiness         Int                      @default(0) @map("overall_readiness")
+  trackers                 Json?
+  lastUpdated              DateTime?                @map("last_updated")
+  createdAt                DateTime                 @default(now()) @map("created_at")
+  updatedAt                DateTime                 @updatedAt @map("updated_at")
+  allocationPendingRemarks String?                  @map("allocation_pending_remarks")
+  apmConfidenceDate        String?                  @map("apm_confidence_date")
+  confidencePercentage     Int?                     @map("confidence_percentage")
+  effortsRequired          String?                  @map("efforts_required")
+  internalTimeline         String?                  @map("internal_timeline")
+  probabilityStatus        String?                  @map("probability_status")
+  reminderDays             Int                      @default(5) @map("reminder_days")
+  studentsCount            Int?                     @map("students_count")
+  maxStudentsCount         Int?                     @map("max_students_count")
+  deletedAt                DateTime?                @map("deleted_at")
+  deletedBy                String?                  @map("deleted_by")
+  isDeleted                Boolean                  @default(false) @map("is_deleted")
+  allClassroomsTimeline    String?                  @map("all_classrooms_timeline")
+  lab5Timeline             String?                  @map("lab5_timeline")
+  modelClassroomTimeline   String?                  @map("model_classroom_timeline")
+  priority                 String                   @default("MEDIUM")
+  isCritical               Boolean                  @default(false) @map("is_critical")
+  staffRoomTimeline        String?                  @map("staff_room_timeline")
+  infraReadyMonth          String?                  @map("infra_ready_month")
+  classCommencementDate    String?                  @map("class_commencement_date")
+  actionItems              ActionItem[]
+  checklistStatuses        SpaceChecklistStatus[]
+  spaces                   Space[]
+  classrooms               UniversityClassroom[]
+  updates                  UniversityUpdate[]
+  checklistStatusHistory   ChecklistStatusHistory[]
+
+  @@index([zoneId])
+  @@index([isDeleted])
+  @@index([updatedAt])
+  @@index([riskStatus])
+  @@map("universities")
+}
+
+model Space {
+  id                String                 @id @default(cuid())
+  universityId      String                 @map("university_id")
+  spaceType         String                 @map("space_type")
+  name              String
+  floor             String?
+  capacity          Int?
+  timeline          String?
+  createdAt         DateTime               @default(now()) @map("created_at")
+  updatedAt         DateTime               @updatedAt @map("updated_at")
+  deletedAt         DateTime?              @map("deleted_at")
+  deletedBy         String?                @map("deleted_by")
+  isDeleted         Boolean                @default(false) @map("is_deleted")
+  remarks           String?
+  roomNumber        String?                @map("room_number")
+  checklistStatuses SpaceChecklistStatus[]
+  classroom         UniversityClassroom?
+  university        University             @relation(fields: [universityId], references: [id], onDelete: Cascade)
+
+  @@index([isDeleted])
+  @@map("spaces")
+}
+
+model ChecklistItem {
+  id            String                 @id @default(cuid())
+  module        String
+  category      String
+  name          String
+  specification String?
+  sortOrder     Int                    @default(0) @map("sort_order")
+  createdAt     DateTime               @default(now()) @map("created_at")
+  statuses      SpaceChecklistStatus[]
+
+  @@map("checklist_items")
+}
+
+model SpaceChecklistStatus {
+  id                   String                   @id @default(cuid())
+  universityId         String                   @map("university_id")
+  spaceId              String                   @map("space_id")
+  checklistItemId      String                   @map("checklist_item_id")
+  currentStatus        String                   @default("Yet to start") @map("current_status")
+  remarks              String?
+  photoUrl             String?                  @map("photo_url")
+  photoContentType     String?                  @map("photo_content_type")
+  universityTimeline   String?                  @map("university_timeline")
+  targetTimeline       String?                  @map("target_timeline")
+  actualCompletionDate String?                  @map("actual_completion_date")
+  capacity             String?
+  isBlocker            Boolean                  @default(false) @map("is_blocker")
+  meta                 Json?
+  updatedAt            DateTime                 @updatedAt @map("updated_at")
+  createdAt            DateTime                 @default(now()) @map("created_at")
+  itemEndDate          String?                  @map("item_end_date")
+  itemStartDate        String?                  @map("item_start_date")
+  photoHistory         PhotoHistory[]
+  history              ChecklistStatusHistory[]
+  checklistItem        ChecklistItem            @relation(fields: [checklistItemId], references: [id])
+  space                Space                    @relation(fields: [spaceId], references: [id], onDelete: Cascade)
+  university           University               @relation(fields: [universityId], references: [id], onDelete: Cascade)
+
+  @@unique([spaceId, checklistItemId])
+  @@index([universityId])
+  @@index([currentStatus])
+  @@index([isBlocker])
+  @@index([updatedAt])
+  @@map("space_checklist_status")
+}
+
+model ChecklistStatusHistory {
+  id                 String               @id @default(cuid())
+  statusId           String               @map("status_id")
+  universityId       String               @map("university_id")
+  currentStatus      String               @map("current_status")
+  remarks            String?
+  universityTimeline String?              @map("university_timeline")
+  targetTimeline     String?              @map("target_timeline")
+  itemStartDate      String?              @map("item_start_date")
+  itemEndDate        String?              @map("item_end_date")
+  isBlocker          Boolean              @default(false) @map("is_blocker")
+  changedAt          DateTime             @default(now()) @map("changed_at")
+  changedById        String?              @map("changed_by_id")
+  changedByName      String?              @map("changed_by_name")
+  status             SpaceChecklistStatus @relation(fields: [statusId], references: [id], onDelete: Cascade)
+  university         University           @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  changedBy          User?                @relation(fields: [changedById], references: [id])
+
+  @@index([statusId, changedAt])
+  @@index([universityId, changedAt])
+  @@map("checklist_status_history")
+}
+
+model PhotoHistory {
+  id          String               @id @default(cuid())
+  statusId    String               @map("status_id")
+  photoUrl    String               @map("photo_url")
+  contentType String?              @map("content_type")
+  uploadedBy  String?              @map("uploaded_by")
+  uploadedAt  DateTime             @default(now()) @map("uploaded_at")
+  remarks     String?
+  status      SpaceChecklistStatus @relation(fields: [statusId], references: [id], onDelete: Cascade)
+
+  @@index([statusId, uploadedAt])
+  @@index([uploadedAt])
+  @@map("photo_history")
+}
+
+model UniversityClassroom {
+  id           String     @id @default(cuid())
+  universityId String     @map("university_id")
+  roomId       String     @map("room_id")
+  floor        String?
+  capacity     Int?
+  timeline     String?
+  driveLink    String?    @map("drive_link")
+  remarks      String?
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  deletedAt    DateTime?  @map("deleted_at")
+  deletedBy    String?    @map("deleted_by")
+  isDeleted    Boolean    @default(false) @map("is_deleted")
+  spaceId      String?    @unique @map("space_id")
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  space        Space?     @relation(fields: [spaceId], references: [id], onDelete: SetNull)
+
+  @@index([universityId, isDeleted])
+  @@index([isDeleted])
+  @@map("university_classrooms")
+}
+
+model UniversityUpdate {
+  id           String     @id @default(cuid())
+  universityId String     @map("university_id")
+  authorName   String     @map("author_name")
+  authorRole   String?    @map("author_role")
+  content      String
+  tags         String[]
+  createdAt    DateTime   @default(now()) @map("created_at")
+  imageUrl     String?    @map("image_url")
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+
+  @@map("university_updates")
+}
+
+model ActionItem {
+  id           String     @id @default(cuid())
+  universityId String     @map("university_id")
+  authorName   String     @map("author_name")
+  content      String
+  status       String     @default("open")
+  dueDate      String?    @map("due_date")
+  createdAt    DateTime   @default(now()) @map("created_at")
+  updatedAt    DateTime   @updatedAt @map("updated_at")
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+
+  @@index([universityId])
+  @@index([status])
+  @@map("action_items")
+}
+
+model AuditLog {
+  id            String   @id @default(cuid())
+  userId        String?  @map("user_id")
+  userEmail     String?  @map("user_email")
+  action        String
+  module        String
+  entityId      String?  @map("entity_id")
+  previousValue Json?    @map("previous_value")
+  updatedValue  Json?    @map("updated_value")
+  createdAt     DateTime @default(now()) @map("created_at")
+  user          User?    @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([userId])
+  @@index([module])
+  @@map("audit_logs")
+}
+
+model PendingReportSnapshot {
+  id                     String   @id
+  createdByUserId        String   @map("created_by_user_id")
+  createdByEmail         String   @map("created_by_email")
+  snapshotVersion        Int      @default(1) @map("snapshot_version")
+  deliveryMode           String   @map("delivery_mode")
+  deliveryProvider       String?  @map("delivery_provider")
+  senderEmail            String?  @map("sender_email")
+  senderName             String?  @map("sender_name")
+  dataset                Json
+  // After accepted-report retention, dataset is a receipt (no university rows).
+  datasetPrunedAt         DateTime? @map("dataset_pruned_at")
+  filename               String
+  snapshotHash           String   @map("snapshot_hash")
+  idempotencyKey         String   @unique @map("idempotency_key")
+  expiresAt              DateTime @map("expires_at")
+  idempotencyExpiresAt   DateTime @map("idempotency_expires_at")
+  state                  String   @default("ready")
+  leaseToken             String?  @map("lease_token")
+  leaseExpiresAt         DateTime? @map("lease_expires_at")
+  attemptedAt            DateTime? @map("attempted_at")
+  attemptCount           Int      @default(0) @map("attempt_count")
+  providerId             String?  @map("provider_id")
+  providerAcceptedAt     DateTime? @map("provider_accepted_at")
+  auditRecorded          Boolean? @map("audit_recorded")
+  createdAt              DateTime @default(now()) @map("created_at")
+  updatedAt              DateTime @updatedAt @map("updated_at")
+
+  @@index([state, leaseExpiresAt])
+  @@index([expiresAt])
+  @@index([idempotencyExpiresAt])
+  @@index([state, datasetPrunedAt, providerAcceptedAt])
+  @@index([createdByUserId, createdAt])
+  @@map("pending_report_snapshots")
+}
+
+/// Canonical registry for the only objects that the evidence GC is allowed to
+/// reclaim.  A row is created before a presigned upload URL is returned, so an
+/// abandoned upload is still retained for the same minimum retention period as
+/// a referenced upload.
+model EvidenceObject {
+  id                  String                   @id @default(uuid())
+  objectPath          String                   @unique @map("object_path")
+  contentType         String?                  @map("content_type")
+  sizeBytes           Int?                     @map("size_bytes")
+  originalName        String?                  @map("original_name")
+  requestedByUserId    String?                  @map("requested_by_user_id")
+  state               String                   @default("active")
+  retentionUntil      DateTime                 @default(dbgenerated("CURRENT_TIMESTAMP + INTERVAL '30 days'")) @map("retention_until")
+  eligibleAt          DateTime?                @map("eligible_at")
+  eligibilityReason   String?                  @map("eligibility_reason")
+  deletingAt          DateTime?                @map("deleting_at")
+  deletionLeaseUntil  DateTime?                @map("deletion_lease_until")
+  deletionToken       String?                  @map("deletion_token")
+  deletedAt           DateTime?                @map("deleted_at")
+  deleteAttempts      Int                      @default(0) @map("delete_attempts")
+  lastDeleteError     String?                  @map("last_delete_error")
+  createdAt           DateTime                 @default(now()) @map("created_at")
+  updatedAt           DateTime                 @updatedAt @map("updated_at")
+  references          EvidenceObjectReference[]
+  gcAttempts          EvidenceGcAttempt[]
+
+  @@index([state, retentionUntil])
+  @@index([state, eligibleAt])
+  @@index([deletionLeaseUntil])
+  @@map("evidence_objects")
+}
+
+/// A global reference index, rather than a university-scoped counter.  The
+/// database triggers maintain it for current evidence, gallery history,
+/// university updates, and immutable report snapshots.  This is what prevents
+/// a reference in another university from racing deletion.
+model EvidenceObjectReference {
+  id          String        @id @default(cuid())
+  objectId    String        @map("object_id")
+  sourceType  String        @map("source_type")
+  sourceId    String        @map("source_id")
+  sourceField String        @map("source_field")
+  createdAt   DateTime      @default(now()) @map("created_at")
+  updatedAt   DateTime      @updatedAt @map("updated_at")
+  object      EvidenceObject @relation(fields: [objectId], references: [id], onDelete: Restrict)
+
+  @@unique([sourceType, sourceId, sourceField])
+  @@index([objectId])
+  @@index([sourceType, sourceId])
+  @@map("evidence_object_references")
+}
+
+/// One durable row per operator invocation.  Dry runs are persisted as well,
+/// so an apply invocation can prove that an explicit bounded preview preceded
+/// physical deletion.
+model EvidenceGcRun {
+  id              String             @id @default(uuid())
+  mode            String
+  actorUserId     String?            @map("actor_user_id")
+  actorEmail      String?            @map("actor_email")
+  dryRunId        String?            @map("dry_run_id")
+  dryRunExpiresAt DateTime?          @map("dry_run_expires_at")
+  consumedAt      DateTime?          @map("consumed_at")
+  consumedByRunId String?            @map("consumed_by_run_id")
+  retentionDays   Int                @map("retention_days")
+  requestedLimit  Int                @map("requested_limit")
+  examinedCount   Int                @default(0) @map("examined_count")
+  eligibleCount   Int                @default(0) @map("eligible_count")
+  markedEligible  Int                @default(0) @map("marked_eligible")
+  markedDeleting  Int                @default(0) @map("marked_deleting")
+  retryableDeletingCount Int         @default(0) @map("retryable_deleting_count")
+  protectedByReferenceCount Int      @default(0) @map("protected_by_reference_count")
+  deletedCount    Int                @default(0) @map("deleted_count")
+  failedCount     Int                @default(0) @map("failed_count")
+  skippedCount    Int                @default(0) @map("skipped_count")
+  status          String             @default("running")
+  errorMessage    String?            @map("error_message")
+  startedAt       DateTime           @default(now()) @map("started_at")
+  finishedAt      DateTime?          @map("finished_at")
+  attempts        EvidenceGcAttempt[]
+
+  @@index([startedAt])
+  @@index([mode, status])
+  @@map("evidence_gc_runs")
+}
+
+/// Durable per-object outcomes make a crash/retry explainable.  An object may
+/// be attempted again in a later run, but never more than once per run.
+model EvidenceGcAttempt {
+  id           String          @id @default(cuid())
+  runId        String          @map("run_id")
+  objectId     String          @map("object_id")
+  objectPath   String          @map("object_path")
+  outcome      String
+  errorMessage String?         @map("error_message")
+  attemptCount Int             @default(0) @map("attempt_count")
+  startedAt    DateTime        @default(now()) @map("started_at")
+  finishedAt   DateTime?       @map("finished_at")
+  run          EvidenceGcRun   @relation(fields: [runId], references: [id], onDelete: Cascade)
+  object       EvidenceObject  @relation(fields: [objectId], references: [id], onDelete: Restrict)
+
+  @@unique([runId, objectId])
+  @@index([objectId, startedAt])
+  @@index([outcome, startedAt])
+  @@map("evidence_gc_attempts")
+}

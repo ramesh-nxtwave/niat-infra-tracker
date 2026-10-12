@@ -1,0 +1,28 @@
+.checklist-header-button {
+  appearance: none;
+  font: inherit;
+}
+
+.checklist-header-button:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--accent-primary) 55%, transparent);
+  outline-offset: 3px;
+}
+
+.checklist-item-target {
+  scroll-margin-top: 7rem;
+  outline: 3px solid var(--accent-primary);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 6px color-mix(in srgb, var(--accent-primary) 18%, transparent),
+    0 8px 22px rgba(0, 0, 0, 0.12) !important;
+}
+
+.checklist-item-target:focus {
+  outline-width: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checklist-item-target {
+    transition: none !important;
+  }
+}

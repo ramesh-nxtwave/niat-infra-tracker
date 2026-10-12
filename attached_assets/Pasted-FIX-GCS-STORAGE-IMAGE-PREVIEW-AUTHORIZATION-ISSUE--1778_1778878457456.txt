@@ -1,0 +1,151 @@
+FIX GCS / STORAGE IMAGE PREVIEW AUTHORIZATION ISSUE
+
+==================================================
+ROOT CAUSE
+==========
+
+Current issue:
+Uploaded images return:
+
+401 Unauthorized
+
+Example:
+GET /api/storage/objects/uploads/89742a08-2570-4936-9bca-d1646861bdab
+
+Problem:
+The image route is protected by JWT auth middleware.
+
+Browser image tags: <img src="..." />
+
+do NOT automatically attach Authorization headers.
+
+Therefore:
+
+* uploads succeed
+* database stores correctly
+* image preview fails
+
+==================================================
+EXPECTED BEHAVIOR
+=================
+
+Evidence images should:
+
+* preview instantly
+* open directly in browser
+* work inside img tags
+* NOT require JWT auth for viewing
+
+==================================================
+REQUIRED FIX
+============
+
+Do NOT protect public image serving routes.
+
+Current protected route:
+/api/storage/objects/*
+
+Fix:
+Allow public read access for uploaded evidence images.
+
+==================================================
+BACKEND FIX
+===========
+
+Remove requireAuth middleware from:
+
+* image serving routes
+* object storage fetch routes
+
+Example:
+BAD:
+app.use('/api/storage', requireAuth, storageRouter)
+
+GOOD:
+app.use('/api/storage', storageRouter)
+
+OR:
+
+Apply auth ONLY on:
+
+* upload endpoints
+* delete endpoints
+* metadata updates
+
+NOT on:
+
+* GET image preview
+
+==================================================
+SECURE APPROACH
+===============
+
+Uploads should:
+
+* require auth
+* verify permissions
+
+Image viewing:
+
+* public read access allowed
+  OR
+* generate signed temporary URLs
+
+Recommended now:
+Use public read URLs for evidence previews.
+
+==================================================
+FRONTEND FIX
+============
+
+Image preview should use direct object URL.
+
+Example: <img src={photoUrl} />
+
+No fetch wrapper.
+No auth headers required.
+
+==================================================
+VERIFY
+======
+
+After fix:
+This URL should open directly in browser:
+
+https://niatinfratracker.replit.app/api/storage/objects/uploads/89742a08-2570-4936-9bca-d1646861bdab
+
+WITHOUT:
+
+* login
+* auth token
+* unauthorized error
+
+==================================================
+OPTIONAL IMPROVEMENT
+====================
+
+Better architecture:
+Generate signed URLs for private objects.
+
+Flow:
+
+1. frontend requests signed URL
+2. backend validates auth
+3. backend returns temporary signed URL
+4. frontend loads image
+
+But for now:
+Public read access is acceptable for evidence images.
+
+==================================================
+IMPORTANT
+=========
+
+Fix:
+
+1. remove auth middleware from GET image routes
+2. keep auth on uploads/deletes
+3. verify image preview works in Evidence Board
+4. verify refresh still works
+5. verify mobile image preview works
+6. verify uploads remain secure

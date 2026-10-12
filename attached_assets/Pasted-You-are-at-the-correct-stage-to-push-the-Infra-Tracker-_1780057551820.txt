@@ -1,0 +1,266 @@
+You are at the correct stage to push the Infra Tracker live, but before publishing, do one final production validation round to ensure:
+
+* Existing university/product data is safe
+* New UI changes don’t break old records
+* No database corruption happens
+* Authentication/session issues are fixed
+* AI automation won’t overload costs unexpectedly
+
+# Final Go-Live Validation Checklist
+
+## 1. DATABASE SAFETY (Highest Priority)
+
+Before publishing:
+
+### Mandatory Backups
+
+Take backups of:
+
+* Universities table
+* Timelines
+* Remarks
+* Action items
+* Evidence/photos
+* APM mappings
+* Access control data
+
+### Verify:
+
+* Old data still visible after latest schema changes
+* New fields are optional/default-safe
+* No tables recreated
+* No migrations dropping columns
+
+### Important:
+
+All new enhancements should use:
+
+* ALTER TABLE
+* Additive migrations only
+
+Avoid:
+
+* DROP TABLE
+* Reset database
+* Fresh schema overwrite
+
+---
+
+# 2. VERIFY OLD DATA COMPATIBILITY
+
+Test with existing universities:
+
+* Percentages visible
+* Remarks visible
+* Timelines visible
+* Evidence accessible
+* APM mappings intact
+* Allocation status intact
+
+Especially test:
+
+* Old universities before UI redesign
+* Universities without timelines
+* Universities with missing fields
+
+---
+
+# 3. SESSION/TOKEN ISSUE (Critical)
+
+This MUST be fixed before go-live.
+
+Currently:
+
+* 15-minute token expiry
+* Forced re-login
+
+Before publishing verify:
+
+* Session persists after refresh
+* Session persists after idle
+* Token refresh works
+* Cookies persist correctly
+
+Target:
+
+* 1 month login persistence
+
+---
+
+# 4. APM MAPPING VALIDATION
+
+Test:
+
+* Update APM from university edit page
+* Check access control immediately
+
+Verify:
+
+* Assigned universities appear instantly
+* Database foreign key updates correctly
+* No stale cache issue
+
+---
+
+# 5. IMAGE STORAGE VALIDATION
+
+Test:
+
+* Upload image
+* Delete image
+* Refresh page
+
+Ensure:
+
+* Deleted images do not reappear
+* Storage cleanup works
+* URLs invalidate correctly
+
+---
+
+# 6. MASTER TRACKER VALIDATION
+
+Check:
+
+* Sticky top row works
+* Sticky university column works
+* No broken scroll
+* No overlapping cells
+* Timelines visible below %
+* Remarks readable
+
+---
+
+# 7. PERFORMANCE TESTING
+
+Very important before production.
+
+Test:
+
+* All 17 universities loaded
+* Large remarks
+* Multiple uploads
+* Filters applied
+* Multi-select filters
+
+Ensure:
+
+* No lag
+* No freezing
+* No crashes
+
+---
+
+# 8. AI EMAIL AUTOMATION COST CHECK
+
+You mentioned:
+
+> “it should consume lot of dollars for it”
+
+Actually, your current AI report automation SHOULD NOT consume huge cost if implemented correctly.
+
+### Recommended Low-Cost Setup
+
+Use AI only for:
+
+* Summary generation
+* Insights generation
+
+NOT for:
+
+* Full database processing
+* Continuous live monitoring
+
+---
+
+# Recommended Cost-Optimized Flow
+
+Every 3 days:
+
+1. Backend fetches raw data
+2. System creates summarized JSON
+3. AI generates concise report
+4. Email sent
+
+This is low-cost.
+
+---
+
+# What Causes High AI Cost
+
+Avoid:
+
+* Running AI on every page load
+* Sending full university datasets repeatedly
+* Long context windows
+* Real-time AI analysis
+* Re-generating reports continuously
+
+---
+
+# Estimated Cost
+
+For your current use case:
+
+* 17 universities
+* One report every 3 days
+* Small summaries
+
+Cost should be very low monthly if optimized properly.
+
+---
+
+# 9. SAFE DEPLOYMENT STRATEGY
+
+Recommended:
+
+## Step 1
+
+Clone current stable app
+
+## Step 2
+
+Deploy staging/testing version
+
+## Step 3
+
+Test production database on staging
+
+## Step 4
+
+Take full DB backup
+
+## Step 5
+
+Push live
+
+## Step 6
+
+Immediately validate:
+
+* Login
+* Universities
+* Remarks
+* Timelines
+* Images
+* Filters
+* Access control
+
+---
+
+# 10. FINAL GO-LIVE DECISION
+
+You are ready to publish IF these are confirmed:
+
+✅ Database backup completed
+✅ Session expiry fixed
+✅ APM mapping fixed
+✅ Remarks saving fixed
+✅ Image delete issue fixed
+✅ Master tracker stable
+✅ Sticky behavior working
+✅ Old data visible
+✅ No schema-breaking migrations
+✅ AI automation scheduled correctly
+
+If all above pass, you can safely push live without affecting existing production data.

@@ -1,0 +1,110 @@
+BULK UNIVERSITY SEEDING + DEFAULT CHECKLIST SETUP
+
+Add the following universities into the system.
+
+IMPORTANT:
+
+* Automatically generate default spaces/checklist structure for each university
+* Clone existing default 73-item checklist template
+* Ensure all modules/categories/checklist items are created
+* Future updates will be managed by operations team manually
+
+==================================================
+UNIVERSITIES TO ADD
+===================
+
+1. Bharatiya Engineering Science and Technology Innovation University
+2. Joy University
+3. St. Peter's Institute of Higher Education and Research
+4. Alard University
+5. Ajeenkya DY Patil University
+6. Annamacharya University
+7. Vivekananda Global University
+8. S-VYASA (Deemed to be University)
+9. AMET University (Chennai)
+10. AMET University (Thenpattinam)
+11. Sanjay Ghodawat University
+12. Chaitanya University
+13. NRI
+14. Yenepoya Mangalore Campus
+15. Yenepoya Bangalore Campus
+16. Malla Reddy Technical Campus (MRV)
+17. Crescent University
+18. Noida International University
+19. Chalapathi (CITY)
+20. Scope Global Skills University
+21. SMR University
+22. Sandip University
+23. Sanskriti University
+24. Sushant University
+25. Geeta University
+26. Universal SkillTech University
+27. SNS College of Technology
+28. T. S Mishra University
+29. Subharti University
+
+==================================================
+REQUIREMENTS
+============
+
+For EACH university:
+
+1. Create university record
+2. Auto-generate university code
+3. Create default template
+4. Create checklist structure
+5. Create default modules
+6. Initialize checklist tracking
+7. Create evidence mapping
+8. Create classroom structure placeholders
+
+==================================================
+CHECKLIST REQUIREMENTS
+======================
+
+Apply all standard checklist items:
+
+* Civil
+* Electrical
+* AV
+* Furniture
+* Networking
+* Branding
+* Readiness
+* Operations
+
+Use existing master template.
+
+==================================================
+DATABASE REQUIREMENTS
+=====================
+
+Avoid duplicates.
+
+Before insert:
+
+* check existing university name
+* check code conflicts
+
+Use transaction-based bulk insertion.
+
+==================================================
+UI REQUIREMENTS
+===============
+
+After insertion:
+
+* universities should appear in dashboard
+* searchable
+* filterable
+* accessible via RBAC
+
+==================================================
+IMPORTANT
+=========
+
+1. Ignore duplicate university names safely
+2. Log failed insertions
+3. Run complete seed successfully
+4. Ensure checklist mappings are created properly
+5. Ensure evidence board works for all new universities

@@ -1,0 +1,158 @@
+FIX IMAGE CACHE / OLD IMAGE PREVIEW ISSUE
+
+==================================================
+CURRENT ISSUE
+=============
+
+Problem:
+
+* Latest uploaded image is NOT showing in preview
+* Old image still appears
+* History correctly shows latest upload
+* Browser is likely serving cached image
+
+This means:
+
+* image URL remains same
+* browser cache is not invalidated
+* frontend preview is not refreshing correctly
+
+==================================================
+ROOT CAUSE
+==========
+
+Current image URL probably remains unchanged.
+
+Example:
+same object URL reused repeatedly
+
+Browser caches old image aggressively.
+
+==================================================
+REQUIRED FIX
+============
+
+Implement cache busting for image previews.
+
+==================================================
+OPTION 1 — RECOMMENDED
+======================
+
+Always generate UNIQUE image URLs.
+
+Example:
+Instead of overwriting existing image:
+uploads/university-1/checklist-1/latest.jpg
+
+Generate:
+uploads/university-1/checklist-1/uuid-timestamp.jpg
+
+Example:
+uploads/89742a08-2570-4936-9bca-d1646861bdab-1747331221.jpg
+
+This is the BEST solution.
+
+==================================================
+OPTION 2 — CACHE BUST QUERY PARAM
+=================================
+
+Append timestamp/version to image preview.
+
+Example:
+
+```js
+const imageUrl = `${photoUrl}?t=${updatedAt}`;
+```
+
+OR:
+
+```js
+const imageUrl = `${photoUrl}?v=${Date.now()}`;
+```
+
+This forces browser refresh.
+
+==================================================
+FRONTEND FIX
+============
+
+Whenever new image uploads:
+
+1. update local state
+2. refresh image preview
+3. invalidate old cache
+
+Ensure:
+React component rerenders properly.
+
+==================================================
+BACKEND FIX
+===========
+
+Do NOT overwrite old files.
+
+Store:
+
+* unique filename
+* unique object key
+
+Every upload should create NEW object.
+
+==================================================
+HISTORY REQUIREMENT
+===================
+
+History should:
+
+* preserve ALL previous uploads
+* latest upload becomes active preview
+* old uploads remain accessible
+
+==================================================
+DATABASE REQUIREMENT
+====================
+
+Current checklist item should reference:
+
+* latest image ID
+  OR
+* latest image URL
+
+History table should store:
+
+* all previous uploads
+
+==================================================
+VERIFY
+======
+
+After fix:
+
+1. Upload new image
+2. Preview updates instantly
+3. Refresh page
+4. Latest image still visible
+5. Old image visible only in history
+
+==================================================
+OPTIONAL IMPROVEMENT
+====================
+
+Add:
+
+* "Current Image" label
+* "Previous Versions" section
+* image compare
+* image timeline
+
+==================================================
+IMPORTANT
+=========
+
+Fix:
+
+1. image cache issue
+2. stale preview rendering
+3. unique file naming
+4. frontend rerender logic
+5. latest image selection logic

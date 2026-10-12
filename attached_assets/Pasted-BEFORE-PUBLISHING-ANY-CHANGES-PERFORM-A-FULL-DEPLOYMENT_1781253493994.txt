@@ -1,0 +1,105 @@
+BEFORE PUBLISHING ANY CHANGES, PERFORM A FULL DEPLOYMENT IMPACT ANALYSIS.
+
+IMPORTANT:
+This application already contains production data.
+
+DO NOT delete, reset, truncate, recreate, overwrite, or migrate data in a way that causes data loss.
+
+I need the new enhancements to be added ON TOP OF the existing production application while preserving all current records.
+
+Please perform the following checks and generate a report:
+
+====================================================
+DATABASE SAFETY CHECK
+=====================
+
+1. Compare current production database schema with the proposed schema.
+
+2. Identify:
+
+* New tables being added
+* New columns being added
+* Modified columns
+* Removed columns
+* Renamed columns
+
+3. Verify whether any migration may:
+
+* Delete records
+* Reset records
+* Break relationships
+* Break foreign keys
+* Cause data corruption
+
+4. Confirm:
+
+✓ Existing universities remain intact
+✓ Existing users remain intact
+✓ Existing workstreams remain intact
+✓ Existing uploads remain intact
+✓ Existing meetings remain intact
+✓ Existing activity logs remain intact
+
+====================================================
+FEATURE IMPACT ANALYSIS
+=======================
+
+Validate that the following enhancements can be added without affecting existing functionality:
+
+1. Multiple image uploads
+2. Multiple video uploads
+3. Session timeout fix
+4. Multi-select filters
+5. Saved filters
+6. Dashboard improvements
+7. Audit logging improvements
+
+For each enhancement, specify:
+
+* Files affected
+* Database changes required
+* Risk level
+* Rollback strategy
+
+====================================================
+SESSION FIX ANALYSIS
+====================
+
+Determine why users are being logged out every 15 minutes.
+
+Check:
+
+* Session configuration
+* Token expiration
+* Cookie expiration
+* Replit Auth settings
+* Middleware configuration
+
+Implement the fix without impacting existing user accounts.
+
+====================================================
+DEPLOYMENT SAFETY REQUIREMENTS
+==============================
+
+Before publishing:
+
+1. Create database backup.
+2. Create rollback plan.
+3. Create migration plan.
+4. Confirm no destructive migrations exist.
+5. Confirm no data will be lost.
+
+====================================================
+FINAL REPORT
+============
+
+Provide:
+
+* Safe to Publish = YES / NO
+* Estimated Risk Level
+* Database Impact Summary
+* Existing Data Preservation Confirmation
+* Rollback Plan
+* Deployment Recommendation
+
+Do NOT deploy any changes until this report is generated and all risks are identified.

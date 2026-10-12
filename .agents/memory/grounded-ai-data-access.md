@@ -1,0 +1,10 @@
+---
+name: Grounded AI data access
+description: Security and trust invariant for AI questions and generated exports in InfraTracker.
+---
+
+The AI assistant may reason only over records assembled by the server after applying the requesting user's existing university visibility rules. Generated exports must contain only the grounded records returned with the answer; never expose arbitrary database query capability to the model. Recheck authorization when conversation history is read and on every new turn; prior answers may be reused only while all of their authorization dependencies remain visible. For availability, completion, installation, and working-state questions, checklist current status is authoritative; remarks may explain but never override status.
+
+**Why:** A model-generated query could bypass role assignments or fabricate unsupported operational data. Server-selected context and explicit source rows preserve authorization and let managers verify each answer.
+
+**How to apply:** Any future assistant capability, data source, conversation history, or export format must reuse current authenticated visibility rules, send only permitted fields to the model, and return source records alongside conclusions. Track server-controlled authorization provenance from every record and prior answer supplied to the model, independently of model-selected display citations. If access narrows, redact old answers and omit them from model context rather than replaying stale facts. Route status-based questions through status-only records and exclude remarks, updates, and action items from classification. For “which/count universities lack X” answers, source tables and exports must include only the universities classified as lacking X, never completed universities assessed only to calculate the result. When an equipment item repeats per classroom, aggregate it at university level: any `Done`/`Completed` row confirms availability, and return at most one university-wide source row for each university lacking it.

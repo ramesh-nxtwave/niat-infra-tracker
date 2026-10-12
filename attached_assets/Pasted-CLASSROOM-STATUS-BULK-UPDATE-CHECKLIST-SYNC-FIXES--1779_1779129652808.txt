@@ -1,0 +1,248 @@
+CLASSROOM STATUS + BULK UPDATE + CHECKLIST SYNC FIXES
+
+==================================================
+
+1. OVERALL CLASSROOM STATUS CHANGE ISSUE
+   ==================================================
+
+Current issue:
+In “Overall Classroom”, status changes are inconsistent.
+
+Example:
+
+* Yet to Start → In Progress = working
+* In Progress → Done = NOT working
+
+Need full validation for ALL status transitions.
+
+Statuses:
+
+* Yet to Start
+* In Progress
+* Done
+* Blocker
+* No Info as of Now
+* Need to Revamp
+
+Fix requirements:
+
+* Any status should successfully transition to any valid next status
+* UI should update immediately
+* DB should persist correctly
+* Readiness percentage should recalculate correctly
+* Audit logs should capture old/new status
+* Ensure PATCH API supports all enums properly
+* Check frontend optimistic update logic
+* Verify no stale cache issue
+
+==================================================
+2. BULK DUPLICATION / APPLY TO MULTIPLE CLASSROOMS
+==================================================
+
+Current pain point:
+APMs manually update the same checklist item for many classrooms.
+
+Example:
+Classrooms:
+
+* 201
+* 202
+* 203
+* 204
+
+Checklist item:
+“Flooring”
+
+Updating one-by-one is extremely time consuming.
+
+Required feature:
+When user updates a checklist item, show a duplication/apply popup.
+
+Example:
+Classroom 202
+Flooring:
+Yet to Start → In Progress
+
+System should ask:
+
+“Do you want to apply this update to other classrooms?”
+
+Options:
+
+* Only this classroom
+* Apply to selected classrooms
+* Apply to all classrooms
+
+If selected:
+
+* update same checklist item across chosen classrooms
+* copy:
+
+  * status
+  * remarks
+  * timelines
+  * blocker state
+  * completion date
+  * confidence info if applicable
+
+DO NOT overwrite unrelated checklist items.
+
+Important logic:
+If Classroom 203 already has:
+Flooring = Done
+
+and user updates Classroom 202:
+Flooring = In Progress
+
+then:
+
+* ask before overwriting completed data
+* optionally skip completed classrooms
+
+Suggested UX:
+Modal popup with:
+☑ Classroom 201
+☑ Classroom 202
+☑ Classroom 204
+
+Buttons:
+
+* Apply
+* Cancel
+
+==================================================
+3. PHOTO DELETE PERMISSIONS
+===========================
+
+Requirement:
+ONLY ADMIN should delete photos.
+
+Zonal Managers:
+
+* cannot delete photos
+
+APMs:
+
+* cannot delete photos
+
+Fix:
+
+* hide delete button for non-admins
+* enforce backend RBAC validation also
+* prevent API bypass
+
+Admin can:
+
+* delete photo
+* delete evidence history item
+* remove from storage
+
+==================================================
+4. CLASSROOM RENAME BREAKING CHECKLIST LINK
+===========================================
+
+Current issue:
+When classroom name changes:
+“Classroom 101” → “Classroom 1”
+
+Checklist disappears and shows:
+“No checklist items found for this room.”
+
+Root cause:
+Checklist linkage is likely based on room name instead of stable room ID.
+
+Required fix:
+Checklist must always be linked using:
+
+* classroom UUID / room ID
+  NOT room name.
+
+When classroom name changes:
+
+* existing checklist statuses should remain
+* evidence should remain
+* history should remain
+* timelines should remain
+
+Do NOT recreate checklist items unnecessarily.
+
+Expected behavior:
+Rename:
+Classroom 101 → Classroom 1
+
+Result:
+
+* same classroom
+* same checklist
+* same evidence
+* only display name updated
+
+==================================================
+5. CHECKLIST INITIALIZATION VALIDATION
+======================================
+
+Verify:
+When new classroom is created:
+
+* all checklist items initialize correctly
+* categories preserve order
+* timelines work
+* photos work
+* status updates work
+
+Also verify:
+
+* deleted classroom does not break checklist references
+* renamed classroom does not duplicate checklist rows
+
+==================================================
+6. OVERALL TESTING REQUIRED
+===========================
+
+Run complete E2E testing for:
+
+* classroom creation
+* classroom rename
+* checklist persistence
+* bulk update flow
+* readiness recalculation
+* photo uploads
+* photo delete permissions
+* classroom evidence history
+* all status transitions
+* mobile responsiveness
+
+==================================================
+7. IMPORTANT ARCHITECTURE FIX
+=============================
+
+Ensure checklist status tables use:
+
+* classroom UUID / space ID
+  NOT classroom display name
+
+Display name should be editable safely without affecting mappings.
+
+Checklist relationships must remain stable permanently.
+
+==================================================
+8. PERFORMANCE NOTE
+===================
+
+Bulk update feature should:
+
+* use transaction/batch update
+* avoid N+1 queries
+* recalculate readiness once after batch update
+* create audit logs efficiently
+
+==================================================
+9. UI/UX EXPECTATION
+====================
+
+Bulk update popup should be:
+
+* mobile friendly
+* searchable for classrooms
+* easy multi-select
+* clean UX for APM field teams

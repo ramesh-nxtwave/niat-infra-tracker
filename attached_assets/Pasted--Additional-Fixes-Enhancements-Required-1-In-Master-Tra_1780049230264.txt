@@ -1,0 +1,115 @@
+### Additional Fixes & Enhancements Required
+
+1. In Master Tracker, for:
+
+* Model Classroom
+* 5.0 Lab
+* Staff Room
+* All Classrooms
+
+Need compact UI format for space reduction:
+
+Expected structure inside each cell:
+
+* Top → Percentage
+* Bottom → Timeline
+
+Example:
+
+* 31%
+* Timeline: 23-05-2026
+
+This should reduce table width and improve readability.
+
+Also remove these columns from Master Tracker:
+
+* Zone
+* APM
+
+---
+
+2. New Universities are not getting mapped properly to APMs.
+
+Issue:
+
+* From Access Control mapping → works correctly
+* But from University → Edit Section → selecting APM (example: Devansh) is not updating/mapping properly.
+
+Need to verify:
+
+* Database save/update query
+* APM foreign key mapping
+* Edit form state handling
+* Save API response
+* Refresh/re-fetch after update
+
+Expected:
+
+* When APM is updated from university edit section, it should reflect everywhere immediately.
+
+---
+
+3. In Model Classroom section:
+
+* Room Number field is missing.
+* Need to display/save room number properly.
+
+---
+
+4. Priority dropdown update required.
+
+Replace existing values with:
+
+* P1
+* P2
+* P3
+
+---
+
+5. Overall remarks are not being saved properly for:
+
+* Overall Lab
+* Model Classroom
+* Staff Room
+
+Need to verify:
+
+* Save API
+* Database persistence
+* Edit/update flow
+* Retrieval/display logic
+
+---
+
+6. Session Timeout / Token Expiry Issue
+
+Current issue:
+
+* Application logs out every 15 minutes
+* While updating data, users are getting:
+
+  * “Token expired”
+  * “Login again”
+
+This is affecting operations heavily.
+
+Required change:
+
+* Increase session/login validity to 1 month.
+
+Expected:
+
+* Users should remain logged in unless manually logged out.
+* Session refresh/token refresh should happen automatically in background.
+
+Need to verify:
+
+* JWT expiry
+* Refresh token logic
+* Session middleware
+* Replit auth/session configuration
+* Cookie expiry settings
+
+Goal:
+
+* No interruption while updating university infra data.

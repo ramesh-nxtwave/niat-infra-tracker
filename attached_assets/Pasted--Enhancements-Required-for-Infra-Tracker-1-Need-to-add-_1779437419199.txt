@@ -1,0 +1,68 @@
+### Enhancements Required for Infra Tracker
+
+1. Need to add **Priority** column in Master Tracker.
+
+2. When opening a university from Master Tracker and clicking the browser back button, it should navigate back to the **same Master Tracker view** instead of resetting/navigation issue.
+
+3. Applied filters are getting cleared when moving between tabs (Evidence / other tabs).
+
+   * Filters should persist until manually cleared.
+
+4. Need **multi-select filter support** across all filters.
+   Example:
+
+   * Currently only Zone 1 can be selected.
+   * Need ability to select Zone 1 + Zone 2 together.
+   * Same behavior required for all filters.
+
+5. Remove **Readiness Filter** for now.
+
+6. Need a filter to identify:
+
+   * Universities with timelines assigned
+   * Universities without timelines assigned
+
+7. Current auto logout/session timeout is every 15 minutes.
+
+   * Increase session validity to **1 month**.
+
+8. Model Classroom percentage is not updating correctly in Master Tracker.
+   Example:
+
+   * St. Peters Engineering College shows 31% in Model Classroom section, but Master Tracker displays 0%.
+
+9. Change wording across application:
+
+   * From: **Overall Classrooms**
+   * To: **All Classrooms**
+
+10. Need separate timeline fields in Master Tracker for each category:
+
+* Model Classroom
+* 5.0 Lab
+* Staff Room
+* All Classrooms
+
+11. Need image upload option while adding **Daily Remarks**.
+
+12. Move **Allocation Status** column next to **Overall %** in Master Tracker.
+
+13. Need new field:
+
+* **Action Items**
+* Along with daily updates/comments tracking.
+
+14. In Detailed Checklist section:
+
+* All categories should remain collapsed/closed by default.
+* Users should manually expand category-wise sections when needed.
+
+Example:
+
+* 🧹 CIVIL & FINISHING
+* ❄️ ELECTRICAL & HVAC
+* 🪑 FURNITURE & SEATING
+* 🌐 TV, AV & WIFI
+* 🔒 SECURITY & SURVEILLANCE
+
+Currently the entire detailed checklist opens automatically — this should be changed to collapsed accordion behavior by default.

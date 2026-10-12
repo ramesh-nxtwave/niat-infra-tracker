@@ -1,0 +1,243 @@
+Before pushing the Infra Tracker live, do a complete production checklist to ensure:
+
+* Existing university data is safe
+* New UI changes do not break old functionality
+* Percentages/timelines work correctly
+* Filters/navigation/session handling work properly
+* No production data loss happens
+
+Use this final pre-production checklist with Replit:
+
+---
+
+# Final Production Checklist – Infra Tracker
+
+## 1. Database Safety Check (MOST IMPORTANT)
+
+### Verify:
+
+* Existing university data is still present
+* Old remarks are intact
+* Evidence files/images are accessible
+* Timelines are preserved
+* Checklist completion data is preserved
+* Allocation status values are preserved
+
+### Mandatory:
+
+Before deployment, take:
+
+* Full database backup
+* Export all tables/data
+* Backup uploaded images/files
+
+If using:
+
+* Supabase → export backup
+* PostgreSQL → pg_dump
+* Firebase → export collections
+* Replit DB → export JSON backup
+
+---
+
+# 2. Ensure Schema Changes Are Non-Destructive
+
+For new fields:
+
+* Priority
+* Action Items
+* Timeline filters
+* Image upload
+* Latest remarks
+
+Use:
+
+* ALTER TABLE
+* Optional/default values
+
+DO NOT:
+
+* Drop existing columns
+* Recreate tables
+* Reset migrations
+
+Example safe approach:
+
+* New columns should allow NULL/default values
+* Existing universities should still work even if old records don't have new fields
+
+---
+
+# 3. Validate Existing Data Mapping
+
+Check these carefully:
+
+| Feature           | Validation              |
+| ----------------- | ----------------------- |
+| Model Classroom % | Correct in tracker      |
+| 5.0 Lab %         | Correct                 |
+| Staff Room %      | Correct                 |
+| All Classrooms %  | Correct                 |
+| Overall %         | Correct                 |
+| Timelines         | Showing properly        |
+| Latest Remarks    | Pulling latest entry    |
+| Allocation Status | Correct                 |
+| Filters           | Returning accurate data |
+
+---
+
+# 4. Navigation & Session Testing
+
+Test:
+
+* Browser back button
+* Filter persistence
+* Scroll position retention
+* Session timeout (1 month)
+* Multiple tab handling
+* Refresh behavior
+
+---
+
+# 5. UI Validation
+
+Check:
+
+* No left horizontal scroll issue
+* Sticky headers working
+* Sticky university column working
+* Table responsiveness
+* Remarks readability
+* Timeline visibility
+* Mobile/laptop responsiveness
+
+---
+
+# 6. Filter Testing
+
+Test combinations:
+
+* Zone 1 + Zone 2
+* High + Medium effort
+* Timeline yes/no
+* Allocation yes/no
+* Multiple APMs
+
+Ensure:
+
+* Multi-select works
+* Filters persist between tabs
+* Clear filters works
+
+---
+
+# 7. Checklist & Accordion Testing
+
+Verify:
+
+* Detailed checklist remains collapsed by default
+* Only clicked category expands
+* No lag when opening checklists
+
+---
+
+# 8. Remarks & Action Items
+
+Verify:
+
+* Latest remarks auto-update in master tracker
+* Images upload properly
+* Action items save correctly
+* Daily updates persist
+
+---
+
+# 9. Performance Testing
+
+Check:
+
+* Page load speed
+* Filter speed
+* Large data rendering
+* Evidence loading speed
+* Checklist opening speed
+
+Especially test with:
+
+* All 17 universities
+* Multiple evidence uploads
+* Large remarks
+
+---
+
+# 10. Production Deployment Strategy
+
+Recommended safest approach:
+
+### Step 1:
+
+Create staging/preview deployment
+
+### Step 2:
+
+Test with existing production data
+
+### Step 3:
+
+Take database backup
+
+### Step 4:
+
+Deploy UI changes only first
+
+### Step 5:
+
+Run migration scripts carefully
+
+### Step 6:
+
+Verify live data immediately after deployment
+
+---
+
+# 11. Critical Replit Checks
+
+Before publishing:
+
+* Environment variables configured
+* Database URL correct
+* Storage bucket connected
+* Authentication working
+* Build passes without warnings/errors
+* API routes functioning
+* Production mode tested
+
+---
+
+# 12. Final Go-Live Validation
+
+After deployment immediately check:
+
+* Login works
+* Universities visible
+* Percentages correct
+* Remarks visible
+* Timelines visible
+* Evidence accessible
+* Filters working
+* No blank screens/errors
+
+---
+
+# Important Recommendation
+
+Do NOT directly overwrite production first.
+
+Best practice:
+
+1. Clone current working app
+2. Deploy upgraded version separately
+3. Test with real data
+4. Then switch production
+
+This avoids accidental data loss.

@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap');
+
+.font-preview {
+  min-height: 100vh;
+  background: #0f172a;
+  color: #f1f5f9;
+  padding: 28px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-preview * { box-sizing: border-box; }
+.font-preview h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.025em; }
+.font-preview .subtitle { margin: 5px 0 20px; color: #94a3b8; font-size: 12px; }
+.font-preview .table-wrap { overflow: hidden; border: 1px solid rgba(79, 102, 138, 0.55); border-radius: 10px; background: #1a2840; }
+.font-preview table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+.font-preview th {
+  height: 38px;
+  padding: 0 12px;
+  background: #111d30;
+  color: #7a94b0;
+  border-bottom: 1px solid rgba(79, 102, 138, 0.45);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-align: left;
+  text-transform: uppercase;
+}
+.font-preview td {
+  height: 47px;
+  padding: 0 12px;
+  border-bottom: 1px solid rgba(79, 102, 138, 0.42);
+  color: #e2e8f0;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.font-preview tbody tr:nth-child(even) td { background: #162032; }
+.font-preview tbody tr:last-child td { border-bottom: 0; }
+.font-preview td.line-item { font-weight: 700; color: #f8fafc; }
+.font-preview .category { display: flex; align-items: center; gap: 6px; }
+.font-preview .category-icon { color: #38bdf8; font-size: 13px; }
+.font-preview .status {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  color: #92400e;
+  background: #fffbeb;
+  font-size: 10px;
+  font-weight: 600;
+}
+.font-preview .note {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 16px;
+  color: #94a3b8;
+  font-size: 11px;
+}
+.font-preview .dot { width: 6px; height: 6px; border-radius: 50%; background: #38bdf8; }

@@ -1,0 +1,20 @@
+- [Daily checklist history](daily-checklist-history.md) — snapshot only genuine report-field changes; bulk and single-item mutations must share this invariant.
+- [Readiness summary consistency](readiness-summary-consistency.md) — dashboard readiness must reflect live active checklist rows; persisted summaries require atomic recalculation.
+- [Browser video fixtures](browser-video-fixtures.md) — use VP9-in-MP4 for headless Chromium evidence tests; H.264/AAC fixtures may fail despite valid storage delivery.
+- [Portal DOM test isolation](portal-dom-test-isolation.md) — run full portal role/route DOM checks in isolated processes to prevent chart-heavy page mounts exhausting test workers.
+- [Grounded AI data access](grounded-ai-data-access.md) — AI context and exports must be server-built from role-visible records; never allow model-directed database queries.
+- [Coupled URL filter history](coupled-url-filter-history.md) — update dependent filters and invalidated selections atomically; automatic normalization must replace history.
+- [Field-note save sequencing](field-note-save-sequencing.md) — serialize all remark writers per item; coalesce only live writes, never trust a completed-value cache.
+- [Checklist navigation safety](checklist-navigation-safety.md) — fail closed on ambiguous legacy rooms; navigation tests must exercise the real app route table.
+- [Prisma generated-client drift](prisma-generated-client-drift.md) — compare source and generated schemas before treating missing-column errors as a migration need.
+- [Checklist transaction admission](checklist-transaction-admission.md) — bound requests before opening transactions; locks inside transactions do not prevent connection-pool starvation.
+- [Publish expression-index diff](publish-expression-index-diff.md) — valid development expressions can be truncated in publish SQL; compare catalogs with a recomputed diff.
+- [Report media latency](report-media-latency.md) — fast report API responses can coexist with slow media bursts; avoid eager offscreen and hidden print downloads.
+- [Manual report safety](manual-report-safety.md) — preserve immutable reviewed content and stable delivery identity across retries, restarts, and rendering changes.
+- [Shared evidence retention](shared-evidence-retention.md) — removing a gallery entry must not delete a file reused by another classroom; physical cleanup needs coordinated GC.
+- [Model checklist matching](model-checklist-matching.md) — model-to-classroom copies need unique semantic matches, not cross-module checklist IDs.
+- [Classroom checklist associations](classroom-checklist-associations.md) — persisted links are authoritative; unresolved legacy rows may use only an exact-one normalized-name match.
+- [Database migration baseline](database-migration-baseline.md) — this database predates Prisma history; use checked-in migrations after baselining verified existing structures.
+- [Report refresh layout stability](report-refresh-layout-stability.md) — every refresh signal, including secondary data readiness, must avoid changing report flow.
+- [Source-only copy prompts](source-only-copy-prompts.md) — choosing the source classroom only is an immediate dismissal after commit, never a second save or copy validation.
+- [Concurrent database tests](concurrent-database-tests.md) — parallel integration fixtures can deadlock; confirm isolated failures before attributing them to product code.

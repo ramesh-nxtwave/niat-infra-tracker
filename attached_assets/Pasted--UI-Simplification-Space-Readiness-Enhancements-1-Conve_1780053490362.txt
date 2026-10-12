@@ -1,0 +1,125 @@
+### UI Simplification & Space Readiness Enhancements
+
+1. Convert “Space Readiness” into Sub-Tabs
+
+Current UI feels crowded because all readiness sections are displayed together.
+
+Required:
+
+* Convert Space Readiness into clean sub-tabs.
+
+Suggested structure:
+
+* Model Classroom
+* 5.0 Lab
+* Staff Room
+* All Classrooms
+
+Each should open as an individual tab/sub-section.
+
+Benefits:
+
+* Cleaner UI
+* Better focus
+* Reduced scrolling
+* Faster usability
+* Better stakeholder presentation
+
+---
+
+2. Replace Long Progress Bars with Simpler UI
+
+Current long progress bars are consuming too much space and making the UI visually heavy.
+
+Recommended replacement options:
+
+### Preferred Option (Recommended)
+
+Use:
+
+* Large percentage text
+* Small circular indicator / pill badge
+
+Example:
+
+* 78%
+* “In Progress”
+
+Instead of large horizontal bars.
+
+---
+
+### Alternative Option
+
+Use compact progress chips/cards:
+
+Example:
+
+* ✅ 78%
+* 🟡 52%
+* 🔴 21%
+
+This will:
+
+* Reduce table width
+* Improve readability
+* Make dashboard look more modern
+* Improve stakeholder visibility
+
+---
+
+3. Simplified 2026 SaaS Style UI
+
+Expected UI direction:
+
+* Minimal
+* Spacious
+* Compact data presentation
+* Clean typography
+* Soft borders/cards
+* Less visual clutter
+* More information density with better readability
+
+Goal:
+
+* Enterprise-grade operational dashboard
+* Quick scanning for leadership/stakeholders
+
+---
+
+4. Remove POC Details
+
+POC Details section is not required.
+
+Remove:
+
+* POC name
+* POC contact details
+* Related fields/cards
+
+This will help simplify the UI further.
+
+---
+
+5. APM Access Control Update
+
+APM should have permission to edit all fields in “Edit Info” except:
+
+Restricted fields:
+
+* Zone
+* APM Name
+
+Everything else should remain editable for APM users.
+
+Expected behavior:
+
+* APM can manage operational updates independently
+* Critical ownership fields remain protected
+
+Need to verify:
+
+* Role-based access permissions
+* Edit form restrictions
+* Backend validation
+* UI disabled states for restricted fields

@@ -1,0 +1,232 @@
+PHASE 2 — ENTERPRISE HARDENING & SCALE IMPROVEMENTS
+
+Current platform maturity:
+
+* Working MVP achieved
+* Production deployment achieved
+* Persistent file storage achieved
+* RBAC working
+* Audit logging working
+* Evidence system working
+
+Goal now:
+Upgrade platform from 7.2/10 → 9+/10 enterprise-grade operations platform.
+
+Critical requirement.
+
+Currently:
+Most routes accept arbitrary JSON.
+
+Implement strict Zod validation on:
+
+* auth routes
+* user create/update
+* university create/update
+* checklist updates
+* uploads
+* dashboard filters
+* search APIs
+* pagination params
+
+Requirements:
+
+* validate body
+* validate params
+* validate query
+* standardized validation errors
+* proper 400 responses
+
+Create reusable validation middleware.
+
+Current issue:
+Several APIs fetch entire datasets.
+
+Implement server-side pagination for:
+
+* universities
+* evidence
+* audit logs
+* checklist history
+* uploads
+* users
+
+Add:
+
+* page
+* limit
+* search
+* filters
+* sorting
+
+Frontend:
+
+* lazy loading
+* infinite scroll where useful
+* loading skeletons
+
+Implement:
+
+1. Forgot password flow
+2. Password reset email
+3. Token expiry
+4. Session revocation
+5. Last login tracking
+6. Login history
+
+Add:
+
+* forced logout on role change
+* forced logout on deactivation
+
+Currently:
+Soft delete only on universities.
+
+Expand soft delete to:
+
+* users
+* spaces
+* checklist items
+* uploads
+* evidence
+* classrooms
+
+Add:
+
+* deleted_at
+* deleted_by
+* restore functionality
+
+Never permanently remove operational data.
+
+Optimize heavy endpoints.
+
+Current issue:
+University detail endpoint fetches excessive nested data.
+
+Refactor:
+
+* summary endpoints
+* detailed endpoints
+* lazy load heavy relations
+
+Implement:
+
+* query optimization
+* selective includes
+* caching
+* stale-while-revalidate
+* dashboard caching
+
+Improve mobile experience significantly.
+
+Fix:
+
+* overflowing tables
+* small buttons
+* evidence gallery responsiveness
+* checklist usability on phones
+
+Add:
+
+* mobile cards instead of tables
+* sticky action footer
+* upload progress bar
+* swipe-friendly UI
+
+Implement:
+
+* bulk checklist update
+* bulk mark done
+* bulk timeline update
+* bulk evidence upload
+* bulk classroom edit
+
+Example:
+Select multiple checklist items → update status once
+
+Implement:
+
+* offline caching
+* retry queue
+* sync when back online
+* stale data indicators
+
+Field teams should still see cached university data without internet.
+
+Add:
+
+* input sanitization
+* MIME type verification
+* JWT key rotation strategy
+* account lockout policy
+* password complexity validation
+* optional TOTP 2FA for admins
+
+Improve observability.
+
+Add:
+
+* request tracing
+* correlation IDs
+* admin login history
+* searchable audit logs
+* audit filters
+* error dashboards
+
+Implement:
+
+* automated backups
+* audit retention policy
+* archive old logs
+* storage cleanup jobs
+* migration versioning
+
+Normalize:
+
+* trackers JSON field if needed
+
+Add:
+
+* per-zone completion charts
+* module-wise completion
+* overdue universities
+* stale movement detection
+* upload activity trends
+* timeline risk indicators
+
+Remove:
+
+* deprecated upload routes
+* duplicate storage logic
+* legacy filesystem upload code
+
+Introduce:
+
+* /api/v1 versioning
+
+Transform platform into:
+
+* scalable university infra operations system
+* enterprise-grade field operations tool
+* audit-safe operational platform
+* multi-university deployment-ready SaaS
+
+Prioritize implementation order:
+
+1. Zod validation
+2. Pagination
+3. Export system
+4. Password reset
+5. Soft deletes
+6. Performance optimization
+7. Mobile Ui
+8. Security hardening
+9. Analytics & observability
+
+After implementation:
+
+* run complete E2E tests
+* run load tests
+* run security review
+* run mobile testing
+* run production readiness audit

@@ -1,0 +1,175 @@
+Paste this into Replit as the next enhancement + bug-fix sprint.
+
+ENHANCEMENTS & BUG FIXES — NEXT SPRINT
+
+==================================================
+
+1. ALL CLASSROOMS DATE FIELD ISSUE
+   ==================================================
+
+Current issue:
+“All Classrooms” section is not properly saving or showing date fields.
+
+Requirements:
+
+* Verify start date and UNIVERSITY TIMELINE AND ACUTUAL COMPLETION are saving correctly
+* Ensure classroom timeline/date fields persist after refresh
+* Verify API payload and DB mapping
+* Ensure date format is:
+  31 May 2026
+
+Also verify:
+
+* classroom photo uploads work correctly
+* uploaded classroom photos are visible
+* classroom evidence persists after refresh
+* no unauthorized errors on classroom photos
+
+Current issue:
+In Lab 5.0, categories reorder/shuffle after updating timelines.
+
+Fix:
+
+* preserve stable category ordering
+* maintain checklist order after edits
+* use display_order consistently
+* prevent frontend resorting unexpectedly
+
+Requirements:
+
+* categories should remain fixed
+* updates should not reshuffle sections
+
+Current issue:
+REMOVE Green text/background combination  when opening university details.
+
+FIX: REMOVE THE GREEN TEXT AND BACK GORUND COMBINATION 
+
+Current requirement:
+APM should be able to edit INFO IN universitIES WHICH ARE MAPPED TO THEM  info fields EXCEPT:
+
+* zone
+* APM name
+
+Fix RBAC permissions.
+
+APM CAN EDIT:
+
+* timelines
+* confidence
+* classrooms
+* efforts required
+* remarks
+* student count
+* checklist info
+* updates
+
+APM CANNOT EDIT:
+
+* zone assignment
+* assigned APM
+
+Ensure backend permission enforcement also exists.
+
+Current issue:
+APM name appears in university cards unnecessarily.
+
+Fix:
+
+* remove APM name from university summary cards
+* keep cleaner UI
+
+Optional:
+Show:
+
+* effort required
+* completion %
+* timelines
+  instead.
+
+Current issue:
+Example:
+BESTIU
+
+All sections:
+
+* Staff = 0%
+* Model = 0%
+* All classrooms = 0%
+
+But overall shows:
+1%
+
+Fix:
+
+* recalculate overall readiness logic
+* prevent phantom percentages
+* use weighted accurate aggregation
+
+Requirements:
+
+* if all child modules are 0%, overall MUST be 0%
+* percentages should round consistently
+* avoid floating point errors
+
+Requirement:
+Daily updates should be editable for 15 minutes after posting.
+
+Implement:
+
+* editable update window
+* timestamp validation
+* audit logging
+
+Rules:
+
+* user can edit only their own update
+* editable within 15 mins
+* after 15 mins → read-only
+
+Current issue:
+Latest updates are not clearly visible in master tracker remarks.
+
+Fix:
+
+* show latest update prominently
+* show recent update timestamp
+* highlight newest remarks
+* truncate long history properly
+
+Current issue:
+Deleted photos are still appearing in evidence/history.
+Example:
+BESTIU
+
+Fix:
+
+* ensure delete removes photo references properly
+* invalidate frontend cache
+* remove orphaned DB references
+* remove deleted images from object storage if required
+
+Requirements:
+
+* deleted photos should disappear immediately
+* refresh should not bring deleted images back
+* evidence board should sync correctly
+
+Perform:
+
+* UI consistency review
+* mobile responsiveness review
+* stale cache cleanup
+* evidence refresh optimization
+* RBAC retesting
+* image preview retesting
+
+After all fixes:
+
+1. Run E2E testing
+2. Verify mobile behavior
+3. Verify image persistence
+4. Verify RBAC permissions
+5. Verify calculations
+6. Verify evidence board synchronization
+7. Verify checklist ordering stability

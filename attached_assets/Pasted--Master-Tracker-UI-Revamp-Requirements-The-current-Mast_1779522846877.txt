@@ -1,0 +1,79 @@
+### Master Tracker UI Revamp Requirements
+
+The current Master Tracker UI needs a complete redesign to make it:
+
+* Simple
+* Clean
+* Functional
+* Modern
+* Easy to navigate
+
+Currently, the page is horizontally scrolling towards the left due to too many columns, which creates a poor user experience and is not aligned with modern UI standards.
+
+### Expected UI Improvements (2026 Modern UI Style)
+
+1. Remove unnecessary horizontal scrolling as much as possible.
+
+   * Important data should be visible without excessive left/right movement.
+   * Use better spacing, grouping, expandable sections, sticky columns, and responsive layouts.
+
+2. The UI should follow latest 2026 dashboard design trends:
+
+   * Minimal and clean layout
+   * Better typography hierarchy
+   * Card/grid-based information structure
+   * Soft borders and spacing
+   * Sticky headers and sticky university name column
+   * Better readability for remarks and timelines
+   * Smart use of collapsible sections
+   * Compact but information-rich design
+
+3. No existing functionality or data should be removed.
+
+   * All currently available details must remain intact.
+   * Only the presentation/UI structure should be improved.
+
+4. Suggested Master Tracker Improvements:
+
+   * Keep University Name and Overall % as sticky columns.
+   * Group category sections smartly:
+
+     * Model Classroom
+     * 5.0 Lab
+     * Staff Room
+     * All Classrooms
+   * Each category card/cell should display:
+
+     * Percentage
+     * Timeline
+     * Allocation status (if applicable)
+
+5. Latest Remarks section should:
+
+   * Be readable without breaking layout
+   * Use expandable text or hover preview
+   * Show latest update clearly
+
+6. Filters section should be redesigned:
+
+   * Multi-select dropdowns
+   * Persistent filters
+   * Compact filter bar
+   * Clear/reset filters option
+
+7. Detailed checklist UI should use accordion/collapsible sections by default instead of opening the full checklist automatically.
+
+8. Mobile/laptop responsiveness should be improved.
+
+   * The UI should look clean across different screen sizes.
+
+9. Navigation flow should feel smooth:
+
+   * Back button should retain state
+   * Filters and scroll position should remain preserved
+
+10. Overall expectation:
+
+* Enterprise-grade dashboard feel
+* Faster usability for operations tracking
+* Cleaner execution for daily monitoring of all 17 partner universities and infra categories.

@@ -1,0 +1,139 @@
+FIX UNIVERSITY EDIT VALIDATION ERROR
+
+==================================================
+CURRENT ISSUE
+=============
+
+PUT /api/universities/:id returns:
+
+400 Bad Request
+
+Error:
+{
+"error": "Expected string, received null",
+"field": "allocationPendingRemarks"
+}
+
+Payload contains:
+allocationPendingRemarks: null
+
+But Zod schema expects:
+z.string()
+
+==================================================
+ROOT CAUSE
+==========
+
+Frontend sends:
+null
+
+Backend validation expects:
+string
+
+This mismatch causes validation failure.
+
+==================================================
+REQUIRED FIX
+============
+
+allocationPendingRemarks should be OPTIONAL and NULLABLE.
+
+==================================================
+BACKEND ZOD FIX
+===============
+
+Update schema.
+
+Current:
+allocationPendingRemarks: z.string()
+
+Fix:
+allocationPendingRemarks: z.string().nullable().optional()
+
+OR:
+
+allocationPendingRemarks: z.union([
+z.string(),
+z.null()
+]).optional()
+
+==================================================
+FRONTEND FIX
+============
+
+Before sending payload:
+convert null values properly.
+
+Example:
+
+BAD:
+allocationPendingRemarks: null
+
+BETTER:
+allocationPendingRemarks: ""
+
+OR omit field entirely.
+
+==================================================
+RECOMMENDED APPROACH
+====================
+
+Use consistent nullable handling across app.
+
+Fields that may be empty:
+
+* remarks
+* allocationPendingRemarks
+* optional notes
+* optional comments
+
+Should support:
+
+* undefined
+* null
+* empty string
+
+==================================================
+DATABASE FIX
+============
+
+Ensure Prisma schema allows nullable value.
+
+Example:
+allocationPendingRemarks String?
+
+==================================================
+IMPORTANT VALIDATION REVIEW
+===========================
+
+Audit ALL update forms for similar issues.
+
+Common problematic fields:
+
+* remarks
+* optional dates
+* optional text fields
+* optional phone numbers
+* optional notes
+
+Ensure frontend + backend types are aligned.
+
+==================================================
+BEST PRACTICE
+=============
+
+Frontend:
+normalize empty fields before API call.
+
+Backend:
+gracefully accept nullable optional fields.
+
+==================================================
+FINAL TASKS
+===========
+
+1. Fix allocationPendingRemarks validation
+2. Audit all nullable fields
+3. Ensure edit university works
+4. Ensure update APIs handle optional values properly
+5. Prevent future null/string mismatches

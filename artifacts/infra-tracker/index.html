@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>NIAT InfraTracker</title>
+    <meta name="description" content="NIAT InfraTracker — command centre for field teams to track infrastructure readiness across partner universities. Monitor checklists, evidence, and progress in real time." />
+    <!-- Apply saved theme before React renders to prevent flash of wrong theme -->
+    <script>
+      (function () {
+        var t = localStorage.getItem('niat_theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

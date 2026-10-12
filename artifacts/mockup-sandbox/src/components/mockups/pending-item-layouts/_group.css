@@ -1,0 +1,139 @@
+.pending-item-preview {
+  --pending-ink: #172236;
+  --pending-muted: #68778b;
+  --pending-surface: #ffffff;
+  --pending-canvas: #f1f5f9;
+
+  width: 100%;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 6px;
+  background: var(--pending-canvas);
+  color: var(--pending-ink);
+  font-family: "Outfit", "Manrope", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.pending-item-card {
+  width: min(750px, 100%);
+  min-height: 348px;
+  overflow: hidden;
+  border-radius: 14px 14px 5px 5px;
+  background: var(--pending-canvas);
+}
+
+.pending-item-header {
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 0 24px;
+  background: var(--pending-surface);
+}
+
+.pending-item-university,
+.pending-item-count {
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.pending-item-university {
+  font-size: 23px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pending-item-count {
+  color: var(--pending-muted);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.pending-item-body {
+  padding: 26px 24px 16px;
+}
+
+.pending-item-name {
+  display: inline;
+  margin: 0;
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.35;
+  letter-spacing: -0.018em;
+}
+
+.pending-item-category {
+  display: inline;
+  margin-left: 13px;
+  color: var(--pending-muted);
+  font-size: 19px;
+  font-weight: 400;
+}
+
+.pending-item-detail {
+  margin: 14px 0 0;
+  color: var(--pending-muted);
+  font-size: 18px;
+  line-height: 1.35;
+}
+
+.pending-item-detail strong,
+.pending-item-remarks strong {
+  color: var(--pending-ink);
+  font-weight: 700;
+}
+
+.pending-item-remarks {
+  margin: 15px 0 0;
+  padding: 14px 13px;
+  border-radius: 6px;
+  background: var(--pending-surface);
+  color: var(--pending-ink);
+  font-size: 18px;
+  line-height: 1.4;
+}
+
+@media (max-width: 540px) {
+  .pending-item-preview {
+    min-height: 100vh;
+    padding: 10px;
+  }
+
+  .pending-item-card {
+    min-height: 0;
+  }
+
+  .pending-item-header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 6px;
+    padding: 18px 20px;
+  }
+
+  .pending-item-university {
+    font-size: 21px;
+  }
+
+  .pending-item-count {
+    font-size: 16px;
+  }
+
+  .pending-item-body {
+    padding: 22px 20px 18px;
+  }
+
+  .pending-item-name,
+  .pending-item-category,
+  .pending-item-detail,
+  .pending-item-remarks {
+    font-size: 17px;
+  }
+
+  .pending-item-category {
+    margin-left: 8px;
+  }
+}

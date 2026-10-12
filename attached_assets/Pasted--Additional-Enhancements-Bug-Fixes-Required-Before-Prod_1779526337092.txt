@@ -1,0 +1,75 @@
+### Additional Enhancements & Bug Fixes Required Before Production
+
+1. Daily Remarks entered in University Tracker are not reflecting in the Master Tracker Remarks section.
+
+   * Latest remark should automatically sync to Master Tracker.
+   * Example issue: TSM.
+   * The most recent update should always be visible properly in the remarks column.
+
+2. All Classrooms section is not taking/saving the timeline date field properly.
+
+   * Please verify:
+
+     * Timeline date saving
+     * Retrieval/display in Master Tracker
+     * Database mapping
+
+3. Also check whether All Classrooms is properly handling:
+
+   * Photo uploads
+   * Evidence/image storage
+   * Retrieval/display after save
+
+4. In Lab 5.0, checklist categories are getting shuffled/reordered after timeline updates.
+
+   * Category order should remain fixed and consistent.
+   * Updating timelines should not affect checklist ordering/UI structure.
+
+5. APM access permissions update required:
+
+   * APM should be able to edit all fields in “Edit Info”
+   * Except:
+
+     * Zone
+     * APM Name
+   * These two fields should remain locked/non-editable.
+
+6. Daily Updates/Edit Window Enhancement:
+
+   * Need edit option for daily updates/remarks for up to 15 minutes after posting.
+   * After 15 minutes, editing should be disabled.
+
+7. Latest update visibility improvement in Master Tracker:
+
+   * Latest remarks should be clearly readable
+   * Better text wrapping/truncation handling required
+   * Timestamp should also be visible if possible
+
+8. Deleted/Test Photos Issue:
+
+   * Photos removed from the application are still appearing.
+   * Example: BestIU.
+   * Need to verify:
+
+     * Actual file deletion from storage
+     * Cache invalidation
+     * Database cleanup
+     * UI refresh after delete
+
+9. Production Validation Required for Media Handling:
+
+   * Upload → View → Delete flow should work correctly
+   * Deleted images should not reappear
+   * Old evidence should remain intact
+   * New uploads should not overwrite old files accidentally
+
+10. Final Stability Check Before Go-Live:
+
+* Remarks syncing
+* Timeline saving
+* Media uploads/deletes
+* Role permissions
+* Category ordering
+* Data persistence after refresh
+* Master Tracker sync accuracy
+* No production data corruption after schema/UI changes

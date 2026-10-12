@@ -1,0 +1,35 @@
+modules = ["nodejs-24", "python-3.11", "postgresql-16"]
+
+[deployment]
+router = "application"
+deploymentTarget = "autoscale"
+
+[deployment.postBuild]
+args = ["pnpm", "store", "prune"]
+env = { "CI" = "true" }
+
+[workflows]
+runButton = "Project"
+
+[agent]
+stack = "PNPM_WORKSPACE"
+expertMode = true
+integrations = ["resend:1.0.0"]
+
+[postMerge]
+path = "scripts/post-merge.sh"
+timeoutMs = 180000
+
+[userenv]
+
+[userenv.shared]
+JWT_SECRET = "dxG7yoGBumtCKGZstlcdc8ilqzzzJJGlZuXnnPsAgdPC1qDdnfh06thMGCkWRhbf"
+PENDING_REPORT_FROM_EMAIL = "niat.infra@gmail.com"
+PENDING_REPORT_DELIVERY_MODE = "live"
+PENDING_REPORT_PROVIDER = "gmail"
+
+[nix]
+channel = "stable-25_05"
+
+[objectStorage]
+defaultBucketID = "replit-objstore-83f11958-28bb-41b5-ad6d-1a94e6735a80"
